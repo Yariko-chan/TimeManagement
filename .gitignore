@@ -1,0 +1,8 @@
+
+TimeManagement/.gradle/
+
+*.iml
+
+*.lock
+
+*.bin
