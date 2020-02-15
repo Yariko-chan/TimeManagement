@@ -4,20 +4,50 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+// Load keystore
+def debugPropertiesFile = rootProject.file("D:\\data\\projects\\Android\\TimeManagement\\debug.properties")
+def debugProperties = new Properties()
+debugProperties.load(new FileInputStream(debugPropertiesFile))
+def releasePropertiesFile = rootProject.file("D:\\data\\projects\\Android\\TimeManagement\\release.properties")
+def releaseProperties = new Properties()
+releaseProperties.load(new FileInputStream(releasePropertiesFile))
+
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.ganeeva.d.f.timemanagement"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
+        versionCode 5
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs{
+        debug {
+            storeFile file(debugProperties['storeFile'])
+            storePassword debugProperties['storePassword']
+            keyAlias debugProperties['keyAlias']
+            keyPassword debugProperties['keyPassword']
+        }
+        release {
+            storeFile file(releaseProperties['storeFile'])
+            storePassword releaseProperties['storePassword']
+            keyAlias releaseProperties['keyAlias']
+            keyPassword releaseProperties['keyPassword']
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    outputFileName = new File("${variant.buildType.name}_${defaultConfig.versionCode}.apk")
+                }
+            }
         }
     }
 }
