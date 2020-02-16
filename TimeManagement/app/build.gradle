@@ -4,11 +4,10 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-// Load keystore
-def debugPropertiesFile = rootProject.file("D:\\data\\projects\\Android\\TimeManagement\\debug.properties")
+def debugPropertiesFile = rootProject.file("debug_keystore\\debug.properties")
 def debugProperties = new Properties()
 debugProperties.load(new FileInputStream(debugPropertiesFile))
-def releasePropertiesFile = rootProject.file("D:\\data\\projects\\Android\\TimeManagement\\release.properties")
+def releasePropertiesFile = rootProject.file("${release_properties}")
 def releaseProperties = new Properties()
 releaseProperties.load(new FileInputStream(releasePropertiesFile))
 
@@ -31,7 +30,7 @@ android {
             keyPassword debugProperties['keyPassword']
         }
         release {
-            storeFile file(releaseProperties['storeFile'])
+            storeFile file("${release_keystore_path}")
             storePassword releaseProperties['storePassword']
             keyAlias releaseProperties['keyAlias']
             keyPassword releaseProperties['keyPassword']
