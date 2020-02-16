@@ -17,8 +17,8 @@ android {
         applicationId "com.ganeeva.d.f.timemanagement"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 5
-        versionName "1.0"
+        versionCode 6
+        versionName "6.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
