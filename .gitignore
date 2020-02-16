@@ -9,12 +9,10 @@ TimeManagement/.gradle/
 
 credentials
 
-keystore.properties
-
-keystore_debug.jks
-
 keystore_release.jks
 
 TimeManagement/app/release/
 
 TimeManagement/build/
+
+release.properties
