@@ -7,9 +7,8 @@ import com.ganeeva.d.f.timemanagement.core.domain.EmptyParam
 import com.ganeeva.d.f.timemanagement.db.task.Task
 import com.ganeeva.d.f.timemanagement.task_list.domain.GetTaskUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlin.coroutines.coroutineContext
 
-class MainViewModel(
+class TaskListViewModel(
     private val getTaskUseCase: GetTaskUseCase
 ): ViewModel() {
 

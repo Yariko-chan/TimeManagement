@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/taskList">
+
+    <fragment
+        android:id="@+id/taskList"
+        android:name="com.ganeeva.d.f.timemanagement.task_list.ui.TaskListFragment"
+        android:label="TaskList"
+        tools:layout="@layout/fragment_task_list"
+        >
+        <action
+            android:id="@+id/action_taskList_to_newTask"
+            app:destination="@id/newTask" />
+    </fragment>
+    <fragment
+        android:id="@+id/newTask"
+        android:name="com.ganeeva.d.f.timemanagement.new_task.NewTaskFragment"
+        android:label="NewTask"
+        tools:layout="@layout/fragment_new_task"
+        />
+</navigation>

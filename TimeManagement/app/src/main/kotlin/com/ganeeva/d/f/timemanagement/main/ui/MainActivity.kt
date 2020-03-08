@@ -1,10 +1,10 @@
-package com.ganeeva.d.f.timemanagement.task_list.ui
+package com.ganeeva.d.f.timemanagement.main.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.fragment.app.FragmentManager
 import com.ganeeva.d.f.timemanagement.R
+import com.ganeeva.d.f.timemanagement.task_list.ui.TaskListFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -14,8 +14,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel.tasksList.observe(this, Observer {
-            Toast.makeText(this, "test", Toast.LENGTH_LONG).show()
-        })
     }
 }
