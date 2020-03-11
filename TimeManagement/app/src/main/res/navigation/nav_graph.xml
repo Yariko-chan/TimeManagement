@@ -17,8 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/newTask"
-        android:name="com.ganeeva.d.f.timemanagement.new_task.NewTaskFragment"
+        android:name="com.ganeeva.d.f.timemanagement.new_task.ui.NewTaskFragment"
         android:label="NewTask"
         tools:layout="@layout/fragment_new_task"
-        />
+        >
+    </fragment>
 </navigation>

@@ -5,11 +5,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-abstract class BaseUseCase<in Param, out Result>() {
+abstract class BaseUseCase<in Param, out Result>(
+    private val dispatcher: CoroutineDispatcher) {
 
     operator fun invoke(
         scope: CoroutineScope,
-        dispatcher: CoroutineDispatcher,
         param: Param,
         onResult: (Either<Result, Throwable>) -> Unit = {}
     ) {

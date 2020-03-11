@@ -4,9 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ganeeva.d.f.timemanagement.core.domain.EmptyParam
-import com.ganeeva.d.f.timemanagement.db.task.Task
+import com.ganeeva.d.f.timemanagement.task.domain.Task
 import com.ganeeva.d.f.timemanagement.task_list.domain.GetTaskUseCase
-import kotlinx.coroutines.Dispatchers
 
 class TaskListViewModel(
     private val getTaskUseCase: GetTaskUseCase
@@ -19,14 +18,14 @@ class TaskListViewModel(
     }
 
     private fun loadData() {
-        getTaskUseCase(viewModelScope, Dispatchers.IO, EmptyParam) { it.fold(::handleFailure, ::handleMovieDetails) }
+        getTaskUseCase(viewModelScope, EmptyParam) { it.fold(::handleList, ::handleError) }
     }
 
-    private fun handleFailure(tasks: List<Task>) {
-        tasksList.value = tasks
+    private fun handleList(dbTasks: List<Task>) {
+        tasksList.value = dbTasks
     }
 
-    private fun handleMovieDetails(throwable: Throwable) {
+    private fun handleError(throwable: Throwable) {
         val i = 5
     }
 }

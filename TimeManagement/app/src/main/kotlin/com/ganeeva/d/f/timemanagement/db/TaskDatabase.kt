@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.ganeeva.d.f.timemanagement.db.task.Task
+import com.ganeeva.d.f.timemanagement.db.task.DbTask
 import com.ganeeva.d.f.timemanagement.db.task.TaskDao
 
 
 const val DB_NAME = "task_database"
 
 @Database(
-    entities = [Task::class],
+    entities = [DbTask::class],
     version = 1,
     exportSchema = false
 )

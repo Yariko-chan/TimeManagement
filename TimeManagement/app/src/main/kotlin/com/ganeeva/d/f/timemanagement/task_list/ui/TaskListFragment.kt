@@ -6,9 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.ganeeva.d.f.timemanagement.R
-import com.ganeeva.d.f.timemanagement.new_task.NewTaskFragment
 import kotlinx.android.synthetic.main.fragment_task_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 

@@ -3,9 +3,78 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item><!--The primary branding color for the app-->
+        <item name="colorSecondary">@color/colorSecondary</item><!--The secondary branding color for the app, usually a bright complement to the primary branding color.-->
+        <item name="colorOnPrimary">@color/colorOnPrimary</item><!--contrasts against the named color-->
+        <item name="colorOnSecondary">@color/colorOnSecondary</item><!--contrasts against the named color-->
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item><!--An alternate shade of the given color-->
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item><!--An alternate shade of the given color-->
+        <item name="colorSurface">@color/colorSurface</item><!--A color for surfaces of components, such as cards, sheets, and menus.-->
+        <item name="android:colorBackground">@color/colorBackground</item><!--The background for the screen-->
+        <item name="colorError">@color/colorError</item><!-- A color for displaying errors-->
+        <item name="colorControlNormal">@color/colorControlNormal</item><!--The color applied to icons/controls in their normal state.-->
+        <item name="colorControlActivated">@color/colorControlActivated</item><!--The color applied to icons/controls in their activated state (e.g. checked).-->
+        <item name="colorControlHighlight">@color/colorControlHighlight</item><!--The color applied to control highlights (e.g. ripples, list selectors).-->
+        <item name="android:textColorPrimary">@color/textColorPrimary</item><!--The most prominent text color.-->
+        <item name="android:textColorSecondary">@color/textColorSecondary</item><!--Secondary text color.-->
+        <item name="actionBarSize">@dimen/actionBarSize</item>
+    </style>
+
+    <style name="TextAppearance" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearance.Primary">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Secondary">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Primary.Large">
+        <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+
+    <style name="TextAppearance.Primary.Medium">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="TextAppearance.Primary.Small">
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="TextAppearance.Secondary.Large">
+        <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+
+    <style name="TextAppearance.Secondary.Medium">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="TextAppearance.Secondary.Small">
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="EditText">
+        <item name="android:textAppearance">@style/TextAppearance.Primary.Medium</item>
+        <item name="android:textColorHint">?android:attr/textColorSecondary</item>
+        <item name="android:gravity">start|top</item>
+        <item name="android:textAlignment">gravity</item>
+    </style>
+
+    <style name="EditText.SingleLine">
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="EditText.MultiLine">
+        <item name="android:minLines">3</item>
+        <item name="android:maxLines">10</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:scrollbars">vertical</item>
     </style>
 
 </resources>

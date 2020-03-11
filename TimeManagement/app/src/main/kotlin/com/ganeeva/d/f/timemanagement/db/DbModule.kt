@@ -5,5 +5,4 @@ import org.koin.dsl.module
 
 val dbModule = module {
     single { TaskDatabase.getInstance(androidContext()) }
-    single { TaskRepository( get() ) }
 }
