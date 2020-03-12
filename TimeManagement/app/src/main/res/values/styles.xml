@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item><!--The primary branding color for the app-->
         <item name="colorSecondary">@color/colorSecondary</item><!--The secondary branding color for the app, usually a bright complement to the primary branding color.-->
+        <item name="colorAccent">@color/colorAccent</item><!--contrasts against the named color-->
         <item name="colorOnPrimary">@color/colorOnPrimary</item><!--contrasts against the named color-->
         <item name="colorOnSecondary">@color/colorOnSecondary</item><!--contrasts against the named color-->
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item><!--An alternate shade of the given color-->
@@ -36,6 +37,10 @@
 
     <style name="TextAppearance.Primary.Large">
         <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+
+    <style name="TextAppearance.Primary.Large.Bold">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.Primary.Medium">

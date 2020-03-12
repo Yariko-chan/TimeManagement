@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--    Common-->
+    <string name="list_is_empty">Список пуст</string>
+
     <!--    New Task-->
     <string name="new_task">Новая задача</string>
     <string name="task_title">Название</string>
     <string name="task_description">Описание</string>
     <string name="error_save_task">Ошибка сохранения задачи, попробуйте ещё раз. </string>
+
+    <!--    Task List-->
+    <string name="task_list_header">Задачи</string>
+    <string name="error_get_task_list">Ошибка загрузки списка задач</string>
 </resources>

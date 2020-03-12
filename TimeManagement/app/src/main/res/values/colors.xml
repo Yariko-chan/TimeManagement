@@ -3,13 +3,14 @@
     <!-- Customize your theme here. -->
     <color name="colorPrimary">#f5f5f5</color><!--The primary branding color for the app-->
     <color name="colorSecondary">#616161</color><!--The secondary branding color for the app, usually a bright complement to the primary branding color.-->
+    <color name="colorAccent">#008500</color><!--accents-->
     <color name="colorOnPrimary">#000000</color><!--contrasts against the named color-->
     <color name="colorOnSecondary">#ffffff</color><!--contrasts against the named color-->
     <color name="colorPrimaryVariant">#f2f2f2</color><!--An alternate shade of the given color-->
     <color name="colorSecondaryVariant">#373737</color><!--An alternate shade of the given color-->
     <color name="colorSurface">#ffffff</color><!--A color for surfaces of components, such as cards, sheets, and menus.-->
     <color name="colorBackground">#f5f5f5</color><!--The background for the screen-->
-    <color name="colorError">#ff0070</color><!-- A color for displaying errors-->
+    <color name="colorError">#A60000</color><!-- A color for displaying errors-->
     <color name="colorControlNormal">#8e8e8e</color><!--The color applied to icons/controls in their normal state.-->
     <color name="colorControlActivated">#373737</color><!--The color applied to icons/controls in their activated state (e.g. checked).-->
     <color name="colorControlHighlight">#616161</color><!--The color applied to control highlights (e.g. ripples, list selectors).-->

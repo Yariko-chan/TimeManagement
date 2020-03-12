@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name" translatable="false">TimeManagement</string>
 
+    <!--    Common-->
+    <string name="list_is_empty">List is empty.</string>
+
     <!--    New Task-->
     <string name="new_task">New task</string>
     <string name="task_title">Title</string>
     <string name="task_description">Description</string>
     <string name="error_save_task">Error savig task, try again later.</string>
+
+    <!--    Task List-->
+    <string name="task_list_header">Tasks</string>
+    <string name="error_get_task_list">Failed to load task list</string>
 </resources>
