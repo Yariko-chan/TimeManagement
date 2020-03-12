@@ -60,6 +60,11 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.onViewVisible()
+    }
+
     // todo extract reusable component
     private fun setupToolbar(
         @StringRes title: Int,

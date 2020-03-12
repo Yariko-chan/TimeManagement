@@ -17,6 +17,7 @@ abstract class TaskListViewModel : ViewModel() {
     abstract val emptyListLiveData: LiveData<Unit>
     abstract val errorLiveData: SingleLiveEvent<Int>
 
+    abstract fun onViewVisible()
     abstract fun onTaskClicked(position: Int, task: Task)
 }
 
@@ -29,7 +30,7 @@ class DefaultTaskListViewModel(
     override val emptyListLiveData = MutableLiveData<Unit>()
     override val errorLiveData = SingleLiveEvent<Int>()
 
-    init {
+    override fun onViewVisible() {
         loadData()
     }
 
