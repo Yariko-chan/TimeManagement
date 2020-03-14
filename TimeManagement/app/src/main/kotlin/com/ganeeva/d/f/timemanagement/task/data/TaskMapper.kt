@@ -10,4 +10,11 @@ class TaskMapper : Mapper<Task, DbTask>() {
             name = from.name,
             description = from.description)
     }
+
+    fun map(from: Task, parentId: Long): DbTask {
+        return DbTask(
+            name = from.name,
+            description = from.description,
+            parentTaskID = parentId)
+    }
 }

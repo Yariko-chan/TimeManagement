@@ -31,10 +31,6 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <style name="TextAppearance.Secondary">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
-
     <style name="TextAppearance.Primary.Large">
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
@@ -49,6 +45,10 @@
 
     <style name="TextAppearance.Primary.Small">
         <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="TextAppearance.Secondary">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
     <style name="TextAppearance.Secondary.Large">
