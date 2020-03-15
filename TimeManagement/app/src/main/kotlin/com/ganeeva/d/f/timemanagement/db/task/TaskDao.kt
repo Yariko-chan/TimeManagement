@@ -23,6 +23,6 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE taskID = :id")
     fun getById(id: Long): DbTask
 
-    @Query("SELECT * FROM task_table")
+    @Query("SELECT * FROM task_table WHERE parentTaskID is NULL")
     fun getAll(): List<DbTask>
 }
