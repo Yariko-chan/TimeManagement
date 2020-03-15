@@ -14,6 +14,8 @@
         android:id="@+id/task_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_large"
         android:paddingTop="@dimen/margin_large"
         android:paddingBottom="@dimen/margin_large"
         android:clipToPadding="false"
@@ -21,7 +23,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_task"
-        tools:visibility="gone"
+        tools:visibility="visible"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -72,7 +72,7 @@ class DefaultNewTaskViewModel(
 
     private fun save(name: String, description: String) {
         val task = Task(name, description)
-        val subtasks = subtaskList.map { Task(name) }
+        val subtasks = subtaskList.map { Task(it) }
         val param = CreateTaskUseCase.Param(task, subtasks)
         createTaskUseCase.invoke(viewModelScope, param) { it.fold(::onSavingSuccess, ::onError) }
         finish()
