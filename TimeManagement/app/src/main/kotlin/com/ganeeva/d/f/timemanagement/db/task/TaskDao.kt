@@ -24,5 +24,8 @@ interface TaskDao {
     fun getById(id: Long): DbTask
 
     @Query("SELECT * FROM task_table WHERE parentTaskID is NULL")
-    fun getAll(): List<DbTask>
+    fun getAllTasks(): List<DbTask>
+
+    @Query("SELECT * FROM task_table WHERE parentTaskID = :id")
+    fun getSubTasks(id: Long): List<DbTask>
 }

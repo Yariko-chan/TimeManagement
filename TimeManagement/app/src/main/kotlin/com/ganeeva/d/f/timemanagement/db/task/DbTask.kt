@@ -16,7 +16,8 @@ import androidx.room.PrimaryKey
         onUpdate = ForeignKey.CASCADE)
     ],
     indices = [
-        Index(value = ["parentTaskID"])
+        Index(value = ["parentTaskID"]),
+        Index(value = ["creationDate"])
     ]
 )
 
@@ -28,6 +29,7 @@ data class DbTask(
 
     var description: String = "",
 
+    val creationDate: Long = 0L,
 
     var parentTaskID: Long? = null)
 {

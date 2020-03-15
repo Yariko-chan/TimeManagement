@@ -1,4 +1,4 @@
-package com.ganeeva.d.f.timemanagement.task_list.ui
+package com.ganeeva.d.f.timemanagement.task_list.ui.task_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,7 +25,10 @@ class TaskAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
-        val holder = TaskViewHolder(view)
+        val holder =
+            TaskViewHolder(
+                view
+            )
         onClick?.let {
             holder.containerView.setOnClickListener {
                 val position = holder.adapterPosition

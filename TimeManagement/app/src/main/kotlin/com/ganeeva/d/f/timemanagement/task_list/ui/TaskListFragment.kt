@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.task.domain.Task
+import com.ganeeva.d.f.timemanagement.task_list.ui.task_list.TaskAdapter
 import kotlinx.android.synthetic.main.fragment_task_list.*
 import kotlinx.android.synthetic.main.include_background_text.*
 import kotlinx.android.synthetic.main.include_progress.*
@@ -29,7 +30,12 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
 
     private val viewModel: TaskListViewModel by viewModel()
     private val adapter: TaskAdapter by lazy {
-        TaskAdapter(onClick = { position, task -> onTaskClicked(position, task) })
+        TaskAdapter(onClick = { position, task ->
+            onTaskClicked(
+                position,
+                task
+            )
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.SingleLiveEvent
 import com.ganeeva.d.f.timemanagement.new_task.domain.CreateTaskUseCase
+import com.ganeeva.d.f.timemanagement.new_task.domain.NewTask
 import com.ganeeva.d.f.timemanagement.task.domain.Task
 
 abstract class NewTaskViewModel: ViewModel() {
@@ -71,10 +72,8 @@ class DefaultNewTaskViewModel(
     }
 
     private fun save(name: String, description: String) {
-        val task = Task(name, description)
-        val subtasks = subtaskList.map { Task(it) }
-        val param = CreateTaskUseCase.Param(task, subtasks)
-        createTaskUseCase.invoke(viewModelScope, param) { it.fold(::onSavingSuccess, ::onError) }
+        val task = NewTask(name, description, subtaskList)
+        createTaskUseCase.invoke(viewModelScope, task) { it.fold(::onSavingSuccess, ::onError) }
         finish()
     }
 
