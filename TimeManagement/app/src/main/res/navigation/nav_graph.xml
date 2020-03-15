@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_taskList_to_newTask"
             app:destination="@id/newTask" />
+        <action
+            android:id="@+id/action_taskList_to_viewTask"
+            app:destination="@id/viewTask" />
     </fragment>
     <fragment
         android:id="@+id/newTask"
@@ -21,5 +24,16 @@
         android:label="NewTask"
         tools:layout="@layout/fragment_new_task"
         >
+    </fragment>
+    <fragment
+        android:id="@+id/viewTask"
+        android:name="com.ganeeva.d.f.timemanagement.task_view.ui.ViewTaskFragment"
+        android:label="ViewTask"
+        tools:layout="@layout/fragment_view_task"
+        >
+        <argument
+            android:name="task_id"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 </navigation>

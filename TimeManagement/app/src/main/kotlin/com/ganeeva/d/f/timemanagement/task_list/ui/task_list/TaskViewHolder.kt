@@ -12,9 +12,11 @@ import kotlinx.android.synthetic.main.item_task.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-val TASK_DATE_FORMAT = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ROOT)
 
-class TaskViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+class TaskViewHolder(
+    override val containerView: View,
+    val dateFormat: SimpleDateFormat
+) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
     private val adapter = MainSubtaskAdapter()
 
@@ -32,7 +34,7 @@ class TaskViewHolder(override val containerView: View) : RecyclerView.ViewHolder
                 description_text_view.text = task.description
             }
         }
-        date_text_view.text = TASK_DATE_FORMAT.format(Date(task.creationDate))
+        date_text_view.text = dateFormat.format(Date(task.creationDate))
         adapter.updateList(task.subtasks)
     }
 }

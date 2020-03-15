@@ -6,6 +6,7 @@ import com.ganeeva.d.f.timemanagement.main.mainModule
 import com.ganeeva.d.f.timemanagement.new_task.newTaskModule
 import com.ganeeva.d.f.timemanagement.task.taskModule
 import com.ganeeva.d.f.timemanagement.task_list.taskListModule
+import com.ganeeva.d.f.timemanagement.task_view.ui.viewTaskModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -22,11 +23,13 @@ class App : Application() {
             androidLogger()
             androidContext(this@App)
             modules(
+                appModule,
                 dbModule,
                 taskModule,
                 mainModule,
                 taskListModule,
-                newTaskModule
+                newTaskModule,
+                viewTaskModule
             )
         }
     }

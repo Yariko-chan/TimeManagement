@@ -15,7 +15,8 @@ abstract class TaskListViewModel : ViewModel() {
     abstract val progressLiveData: LiveData<Boolean>
     abstract val tasksListLiveData: LiveData<List<Task>>
     abstract val emptyListLiveData: LiveData<Unit>
-    abstract val errorLiveData: SingleLiveEvent<Int>
+    abstract val errorEvent: SingleLiveEvent<Int>
+    abstract val showTaskEvent: SingleLiveEvent<Long>
 
     abstract fun onViewVisible()
     abstract fun onTaskClicked(position: Int, task: Task)
@@ -28,14 +29,15 @@ class DefaultTaskListViewModel(
     override val progressLiveData = MutableLiveData<Boolean>()
     override val tasksListLiveData = MutableLiveData<List<Task>>()
     override val emptyListLiveData = MutableLiveData<Unit>()
-    override val errorLiveData = SingleLiveEvent<Int>()
+    override val errorEvent = SingleLiveEvent<Int>()
+    override val showTaskEvent = SingleLiveEvent<Long>()
 
     override fun onViewVisible() {
         loadData()
     }
 
     override fun onTaskClicked(position: Int, task: Task) {
-        // todo open here by id
+        showTaskEvent.value = task.id
     }
 
     private fun loadData() {
@@ -54,6 +56,6 @@ class DefaultTaskListViewModel(
     private fun onError(throwable: Throwable) {
         progressLiveData.value = false
         emptyListLiveData.value = Unit
-        errorLiveData.value = R.string.error_get_task_list
+        errorEvent.value = R.string.error_get_task_list
     }
 }

@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ganeeva.d.f.timemanagement.R
-import com.ganeeva.d.f.timemanagement.task.domain.Task
 
 class SubtaskAdapter(
     initialList: List<String>? = null
@@ -21,7 +20,7 @@ class SubtaskAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubtaskViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_subtask, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_subtask_new, parent, false)
         return SubtaskViewHolder(view)
     }
 

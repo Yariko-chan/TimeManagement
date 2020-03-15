@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
         entity = DbTask::class,
         parentColumns = ["taskId"],
         childColumns = ["parentTaskID"],
-        onDelete = ForeignKey.RESTRICT,
+        onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE)
     ],
     indices = [

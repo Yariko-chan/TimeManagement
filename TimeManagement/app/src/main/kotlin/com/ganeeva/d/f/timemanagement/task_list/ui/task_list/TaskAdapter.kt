@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.task.domain.Task
+import java.text.SimpleDateFormat
 
 typealias OnClick = (position: Int, item: Task) -> Unit
 
 class TaskAdapter(
     initialList: List<Task>? = null,
-    private val onClick: OnClick? = null
+    private val onClick: OnClick? = null,
+    val dateFormat: SimpleDateFormat
 ): RecyclerView.Adapter<TaskViewHolder>() {
 
     private val items = mutableListOf<Task>()
@@ -25,10 +27,7 @@ class TaskAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
-        val holder =
-            TaskViewHolder(
-                view
-            )
+        val holder = TaskViewHolder(view, dateFormat)
         onClick?.let {
             holder.containerView.setOnClickListener {
                 val position = holder.adapterPosition

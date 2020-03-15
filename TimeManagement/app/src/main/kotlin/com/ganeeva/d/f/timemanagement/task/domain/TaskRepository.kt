@@ -7,4 +7,5 @@ interface TaskRepository {
     fun getTask(id: Long) : Task
     fun saveTask(task: NewTask)
     fun getAll() : List<Task>
+    fun remove(id: Long)
 }

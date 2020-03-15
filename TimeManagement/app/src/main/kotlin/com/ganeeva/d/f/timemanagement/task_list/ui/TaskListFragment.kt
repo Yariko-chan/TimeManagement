@@ -7,16 +7,21 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ganeeva.d.f.timemanagement.R
+import com.ganeeva.d.f.timemanagement.core.TASK_DATE_FORMAT
 import com.ganeeva.d.f.timemanagement.task.domain.Task
 import com.ganeeva.d.f.timemanagement.task_list.ui.task_list.TaskAdapter
 import kotlinx.android.synthetic.main.fragment_task_list.*
 import kotlinx.android.synthetic.main.include_background_text.*
 import kotlinx.android.synthetic.main.include_progress.*
 import kotlinx.android.synthetic.main.include_toolbar.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
+import java.text.SimpleDateFormat
 
 class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
 
@@ -29,13 +34,11 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
     }
 
     private val viewModel: TaskListViewModel by viewModel()
+    private val dateFormat: SimpleDateFormat by inject(named(TASK_DATE_FORMAT))
     private val adapter: TaskAdapter by lazy {
-        TaskAdapter(onClick = { position, task ->
-            onTaskClicked(
-                position,
-                task
-            )
-        })
+        TaskAdapter(
+            dateFormat = dateFormat,
+            onClick = { position, task -> onTaskClicked(position, task) })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,8 +64,13 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
             background_text.visibility = View.VISIBLE
             task_recycler_view.visibility = View.GONE
         })
-        viewModel.errorLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.errorEvent.observe(viewLifecycleOwner, Observer {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        })
+
+        viewModel.showTaskEvent.observe(viewLifecycleOwner, Observer {id ->
+            val action = TaskListFragmentDirections.actionTaskListToViewTask(id)
+            view.findNavController().navigate(action)
         })
     }
 

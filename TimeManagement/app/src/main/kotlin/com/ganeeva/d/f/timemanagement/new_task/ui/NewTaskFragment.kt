@@ -24,12 +24,7 @@ class NewTaskFragment: Fragment(R.layout.fragment_new_task) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupToolbar(
-            R.string.new_task,
-            R.drawable.ic_back,
-            R.drawable.ic_ok,
-            onStartClicked = { viewModel.onBackCLicked() },
-            onEndClicked = { onToolbarOkClicked() })
+        setupToolbar()
         add_subtask_image_view.setOnClickListener { viewModel.onAddSubtaskClicked() }
         task_list_recycler_view.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -49,22 +44,12 @@ class NewTaskFragment: Fragment(R.layout.fragment_new_task) {
         viewModel.onOkClicked(name_edittext.text.toString(), description_edittext.text.toString())
     }
 
-    private fun setupToolbar(
-        @StringRes title: Int,
-        @DrawableRes startIcon: Int = R.drawable.ic_back,
-        @DrawableRes endIcon: Int? = null,
-        onStartClicked: ((View) -> Unit)? = null,
-        onEndClicked: ((View) -> Unit)? = null
-    ) {
-        title_textview.setText(title)
-        start_image_view.setImageResource(startIcon)
-        if (endIcon == null) {
-            end_image_view.visibility = View.GONE
-        } else {
-            end_image_view.setImageResource(endIcon)
-        }
-        onStartClicked?.let { start_image_view.setOnClickListener(it) }
-        onEndClicked?.let{ end_image_view.setOnClickListener(it) }
+    private fun setupToolbar() {
+        title_textview.setText(R.string.new_task)
+        start_image_view.setImageResource(R.drawable.ic_back)
+        end_image_view.setImageResource(R.drawable.ic_ok)
+        start_image_view.setOnClickListener{ viewModel.onBackCLicked() }
+        end_image_view.setOnClickListener{ onToolbarOkClicked() }
     }
 
     private fun showError(@StringRes messageResId: Int) {

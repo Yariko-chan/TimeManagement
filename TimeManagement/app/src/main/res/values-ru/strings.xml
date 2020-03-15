@@ -15,4 +15,8 @@
     <string name="task_list_header">Задачи</string>
     <string name="error_get_task_list">Ошибка загрузки списка задач</string>
     <string name="add_subtask">Добавить подзадачу</string>
+
+    <!--    Task View-->
+    <string name="error_task_not_found">Задача не найдена</string>
+    <string name="error_task_removing">Ошибка удаления задачи</string>
 </resources>

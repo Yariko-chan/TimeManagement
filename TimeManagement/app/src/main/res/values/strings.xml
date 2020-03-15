@@ -16,4 +16,8 @@
     <string name="task_list_header">Tasks</string>
     <string name="error_get_task_list">Failed to load task list</string>
     <string name="add_subtask">Add subtask</string>
+
+    <!--    Task View-->
+    <string name="error_task_not_found">Task not found</string>
+    <string name="error_task_removing">Error while removing task</string>
 </resources>
