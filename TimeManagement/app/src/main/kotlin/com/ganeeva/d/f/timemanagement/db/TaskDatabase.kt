@@ -6,12 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ganeeva.d.f.timemanagement.db.task.DbTask
 import com.ganeeva.d.f.timemanagement.db.task.TaskDao
+import com.ganeeva.d.f.timemanagement.db.time_gap.TimeGapDao
+import com.ganeeva.d.f.timemanagement.db.time_gap.DbTimeGap
 
 
 const val DB_NAME = "task_database"
 
 @Database(
-    entities = [DbTask::class],
+    entities = [DbTask::class, DbTimeGap::class],
     version = 1,
     exportSchema = false
 )
@@ -19,6 +21,8 @@ const val DB_NAME = "task_database"
 abstract class TaskDatabase : RoomDatabase() {
 
     abstract val taskDao: TaskDao
+    abstract val timeGapDao: TimeGapDao
+
     companion object {
 
         @Volatile

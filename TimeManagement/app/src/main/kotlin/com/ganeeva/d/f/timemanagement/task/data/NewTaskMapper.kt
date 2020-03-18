@@ -18,7 +18,7 @@ class NewTaskMapper {
         from.subtasks?.forEach {
             tasks += DbTask(
                 name= it,
-                parentTaskID = parentId
+                parentTaskId = parentId
             )
         }
         return tasks

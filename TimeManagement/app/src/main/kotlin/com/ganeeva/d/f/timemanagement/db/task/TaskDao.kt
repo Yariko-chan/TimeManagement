@@ -17,15 +17,15 @@ interface TaskDao {
     @Update
     fun updateTask(task: DbTask) : Int
 
-    @Query("SELECT * FROM task_table WHERE taskID = :id")
+    @Query("SELECT * FROM task_table WHERE id = :id")
     fun getById(id: Long): DbTask
 
-    @Query("SELECT * FROM task_table WHERE parentTaskID is NULL")
+    @Query("SELECT * FROM task_table WHERE parentTaskId is NULL")
     fun getAllTasks(): List<DbTask>
 
-    @Query("SELECT * FROM task_table WHERE parentTaskID = :id")
+    @Query("SELECT * FROM task_table WHERE parentTaskId = :id")
     fun getSubTasks(id: Long): List<DbTask>
 
-    @Query("DELETE FROM task_table WHERE taskID = :id")
+    @Query("DELETE FROM task_table WHERE id = :id")
     fun remove(id: Long) : Int
 }

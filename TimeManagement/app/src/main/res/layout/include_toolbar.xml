@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:textAppearance="@style/TextAppearance.Primary.Large"
+        android:textAppearance="@style/TextAppearance.Primary.Large.Bold"
         app:layout_constraintStart_toEndOf="@id/start_image_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

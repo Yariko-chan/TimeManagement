@@ -10,27 +10,27 @@ import androidx.room.PrimaryKey
     foreignKeys = [
         ForeignKey(
         entity = DbTask::class,
-        parentColumns = ["taskId"],
-        childColumns = ["parentTaskID"],
+        parentColumns = ["id"],
+        childColumns = ["parentTaskId"],
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE)
     ],
     indices = [
-        Index(value = ["parentTaskID"]),
+        Index(value = ["parentTaskId"]),
         Index(value = ["creationDate"])
     ]
 )
 
 data class DbTask(
     @PrimaryKey(autoGenerate = true)
-    var taskId: Long = 0L,
+    val id: Long = 0L,
 
-    var name: String = "",
+    val name: String = "",
 
-    var description: String = "",
+    val description: String = "",
 
     val creationDate: Long = 0L,
 
-    var parentTaskID: Long? = null)
+    val parentTaskId: Long? = null)
 {
 }

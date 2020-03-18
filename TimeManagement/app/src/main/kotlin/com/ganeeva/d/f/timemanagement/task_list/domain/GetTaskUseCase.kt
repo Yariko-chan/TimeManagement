@@ -1,6 +1,6 @@
 package com.ganeeva.d.f.timemanagement.task_list.domain
 
-import com.ganeeva.d.f.timemanagement.core.domain.BaseUseCase
+import com.ganeeva.d.f.timemanagement.core.domain.ResultUseCase
 import com.ganeeva.d.f.timemanagement.core.domain.Either
 import com.ganeeva.d.f.timemanagement.core.domain.EmptyParam
 import com.ganeeva.d.f.timemanagement.task.domain.Task
@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 
 class GetTaskUseCase(
     private val taskRepository: TaskRepository
-): BaseUseCase<EmptyParam, List<Task>>(Dispatchers.IO) {
+): ResultUseCase<EmptyParam, List<Task>>(Dispatchers.IO) {
 
     override suspend fun run(params: EmptyParam): Either<List<Task>, Throwable> {
         try {

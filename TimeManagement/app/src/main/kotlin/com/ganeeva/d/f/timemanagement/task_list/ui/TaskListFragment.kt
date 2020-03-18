@@ -7,11 +7,13 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.TASK_DATE_FORMAT
+import com.ganeeva.d.f.timemanagement.core.extensions.gone
+import com.ganeeva.d.f.timemanagement.core.extensions.navigateWithCheck
+import com.ganeeva.d.f.timemanagement.core.extensions.visible
 import com.ganeeva.d.f.timemanagement.task.domain.Task
 import com.ganeeva.d.f.timemanagement.task_list.ui.task_list.TaskAdapter
 import kotlinx.android.synthetic.main.fragment_task_list.*
@@ -50,7 +52,7 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
 
         add_new_button.setOnClickListener {
             val action = TaskListFragmentDirections.actionTaskListToNewTask()
-            view.findNavController().navigate(action)
+            view.findNavController().navigateWithCheck(action)
         }
 
         viewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
@@ -58,11 +60,12 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
         })
         viewModel.tasksListLiveData.observe(viewLifecycleOwner, Observer {
             adapter.updateList(it)
-            task_recycler_view.visibility = View.VISIBLE
+            background_text.gone()
+            task_recycler_view.visible()
         })
         viewModel.emptyListLiveData.observe(viewLifecycleOwner, Observer {
-            background_text.visibility = View.VISIBLE
-            task_recycler_view.visibility = View.GONE
+            background_text.visible()
+            task_recycler_view.gone()
         })
         viewModel.errorEvent.observe(viewLifecycleOwner, Observer {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()

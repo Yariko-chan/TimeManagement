@@ -9,7 +9,7 @@ class DbTaskMapper: Mapper<DbTask, Task>() {
 
     override fun map(from: DbTask): Task {
         return Task(
-            from.taskId,
+            from.id,
             from.name,
             from.description,
             from.creationDate)
@@ -17,13 +17,13 @@ class DbTaskMapper: Mapper<DbTask, Task>() {
 
     fun mapSubTask(from: DbTask): SubTask {
         return SubTask(
-            from.taskId,
+            from.id,
             from.name)
     }
 
     fun map(mainTask: DbTask, subtasks: List<DbTask>): Task {
         return Task(
-            mainTask.taskId,
+            mainTask.id,
             mainTask.name,
             mainTask.description,
             mainTask.creationDate,

@@ -19,4 +19,8 @@
     <!--    Task View-->
     <string name="error_task_not_found">Задача не найдена</string>
     <string name="error_task_removing">Ошибка удаления задачи</string>
+    <string name="time_gaps">Время</string>
+    <string name="notification_task_running">Выполняется задача</string>
+    <string name="error_task_running">Ошибка при запуске задачи</string>
+    <string name="error_task_stopping">Ошибка при остановке задачи</string>
 </resources>

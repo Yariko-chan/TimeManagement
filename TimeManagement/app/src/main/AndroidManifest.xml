@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ganeeva.d.f.timemanagement">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".core.App"
         android:allowBackup="true"
@@ -10,7 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.ganeeva.d.f.timemanagement.main.ui.MainActivity">
+        <service
+            android:name=".task_time_service.TaskRunningService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".main.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -5,7 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-abstract class BaseUseCase<in Param, out Result>(
+abstract class ResultUseCase<in Param, out Result>(
     private val dispatcher: CoroutineDispatcher) {
 
     operator fun invoke(
@@ -22,4 +22,24 @@ abstract class BaseUseCase<in Param, out Result>(
     }
 
     abstract suspend fun run(params: Param) : Either<Result, Throwable>
+}
+
+abstract class ResultlessUseCase<in Param>(
+    private val dispatcher: CoroutineDispatcher) {
+
+    operator fun invoke(
+        scope: CoroutineScope,
+        param: Param,
+        onSuccess: () -> Unit = {},
+        onError: (Throwable) -> Unit = {}
+    ) {
+        scope.launch {
+            val run = withContext(dispatcher) {
+                run(param)
+            }
+            run.fold({ onSuccess() },{ e -> onError(e) })
+        }
+    }
+
+    abstract suspend fun run(params: Param) : Either<Unit, Throwable>
 }

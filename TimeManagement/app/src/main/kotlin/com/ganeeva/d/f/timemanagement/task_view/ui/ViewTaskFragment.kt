@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ganeeva.d.f.timemanagement.R
+import com.ganeeva.d.f.timemanagement.task_time_service.TaskRunningService
 import kotlinx.android.synthetic.main.fragment_view_task.*
 import kotlinx.android.synthetic.main.fragment_view_task.date_text_view
 import kotlinx.android.synthetic.main.fragment_view_task.description_text_view
@@ -23,9 +24,14 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.onTaskId(args.taskId)
+        setupView()
+        subscribeViewModel()
+    }
+
+    private fun setupView() {
         setupToolbar()
         setupSubtasksList()
-        subscribeViewModel()
+        run_time_checkbox.setOnCheckedChangeListener { _, isChecked -> viewModel.onRunChecked(isChecked) }
     }
 
     private fun setupToolbar() {
@@ -49,6 +55,20 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
             Observer { description_text_view.text = it })
         viewModel.subtasksLiveData.observe(viewLifecycleOwner, Observer { adapter.updateList(it) })
         viewModel.finishLiveData.observe(viewLifecycleOwner, Observer { finish() })
+        viewModel.runLiveData.observe(viewLifecycleOwner, Observer { data ->
+            startTaskRunningService(data)
+        })
+        viewModel.stopLiveData.observe(viewLifecycleOwner, Observer { stopTaskRunningService() })
+    }
+
+    private fun startTaskRunningService(data: NotificationData) {
+        context?.run {
+            TaskRunningService.start(this, data.id, data.name)
+        }
+    }
+
+    private fun stopTaskRunningService() {
+        context?.run { TaskRunningService.stop(this) }
     }
 
     private fun finish() {

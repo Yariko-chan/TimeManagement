@@ -38,7 +38,7 @@ class DbTaskRepository(
     }
 
     private fun mapTask(mainTask: DbTask): Task {
-        val subtasks = db.taskDao.getSubTasks(mainTask.taskId)
+        val subtasks = db.taskDao.getSubTasks(mainTask.id)
         return dbTaskMapper.map(mainTask, subtasks)
     }
 }
