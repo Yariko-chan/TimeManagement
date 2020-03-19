@@ -25,4 +25,7 @@ interface TimeGapDao {
 
     @Query("SELECT * FROM time_gap_table WHERE taskId = :taskId AND endTime IS NULL")
     fun getUnfinishedTimeGapsForTask(taskId: Long): List<DbTimeGap>
+
+    @Query("SELECT SUM(endTime - startTime) FROM time_gap_table WHERE taskId = :taskId")
+    fun getDuration(taskId: Long) : Long
 }

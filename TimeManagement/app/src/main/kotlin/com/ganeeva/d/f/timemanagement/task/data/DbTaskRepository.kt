@@ -17,13 +17,6 @@ class DbTaskRepository(
         return mapTask(mainTask)
     }
 
-    override fun saveTask(task: NewTask) {
-        val parentId = db.taskDao.insertTask(newTaskMapper.mapMainTask(task))
-        newTaskMapper.mapSubTasks(task, parentId).forEach {
-            db.taskDao.insertTask(it)
-        }
-    }
-
     override fun getAll() : List<Task> {
         val dbTasks = db.taskDao.getAllTasks()
         val tasks = mutableListOf<Task>()
@@ -33,12 +26,21 @@ class DbTaskRepository(
         return tasks
     }
 
+    override fun saveTask(task: NewTask) {
+        val parentId = db.taskDao.insertTask(newTaskMapper.mapMainTask(task))
+        newTaskMapper.mapSubTasks(task, parentId).forEach {
+            db.taskDao.insertTask(it)
+        }
+    }
+
     override fun remove(id: Long) {
         db.taskDao.remove(id)
     }
 
     private fun mapTask(mainTask: DbTask): Task {
         val subtasks = db.taskDao.getSubTasks(mainTask.id)
-        return dbTaskMapper.map(mainTask, subtasks)
+        val timeGaps = db.timeGapDao.getAllForTask(mainTask.id)
+        val duration = db.timeGapDao.getDuration(mainTask.id)
+        return dbTaskMapper.map(mainTask, subtasks, timeGaps, duration)
     }
 }

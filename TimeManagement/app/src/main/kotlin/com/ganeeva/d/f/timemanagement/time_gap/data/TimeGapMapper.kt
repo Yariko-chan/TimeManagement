@@ -7,6 +7,6 @@ import com.ganeeva.d.f.timemanagement.time_gap.domain.TimeGap
 class TimeGapMapper: Mapper<TimeGap, DbTimeGap>() {
 
     override fun map(from: TimeGap): DbTimeGap {
-        return DbTimeGap(from.id, from.startTime, from.startTime, from.taskId)
+        return DbTimeGap(from.id, from.startTime, from.endTime, from.taskId)
     }
 }

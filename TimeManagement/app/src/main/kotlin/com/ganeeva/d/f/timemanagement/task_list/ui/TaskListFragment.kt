@@ -73,7 +73,7 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
 
         viewModel.showTaskEvent.observe(viewLifecycleOwner, Observer {id ->
             val action = TaskListFragmentDirections.actionTaskListToViewTask(id)
-            view.findNavController().navigate(action)
+            view.findNavController().navigateWithCheck(action)
         })
     }
 

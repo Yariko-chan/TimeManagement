@@ -23,6 +23,7 @@ abstract class ViewTaskViewModel : ViewModel() {
     abstract val finishLiveData: LiveData<Unit>
     abstract val runLiveData: LiveData<NotificationData>
     abstract val stopLiveData: LiveData<Unit>
+    abstract val durationLiveData: LiveData<String>
 
     abstract fun onTaskId(id: Long?)
     abstract fun onBackCliked()
@@ -34,7 +35,8 @@ class DefaultViewTaskViewModel(
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val removeTaskUseCase: RemoveTaskUseCase,
     private val timeGapInteractor: TimeGapInteractor,
-    private val dateFormat: SimpleDateFormat
+    private val taskDateFormat: SimpleDateFormat,
+    private val taskDurationFormat: SimpleDateFormat
 ): ViewTaskViewModel() {
 
     private var task: Task? = null
@@ -47,6 +49,7 @@ class DefaultViewTaskViewModel(
     override val finishLiveData = MutableLiveData<Unit>()
     override val runLiveData = MutableLiveData<NotificationData>()
     override val stopLiveData = MutableLiveData<Unit>()
+    override val durationLiveData = MutableLiveData<String>()
 
     override fun onTaskId(id: Long?) {
         when (id) {
@@ -86,8 +89,9 @@ class DefaultViewTaskViewModel(
         this.task = task
         nameLiveData.value = task.name
         descriptionLiveData.value = task.description
-        dateLiveData.value = dateFormat.format(task.creationDate)
+        dateLiveData.value = taskDateFormat.format(task.creationDate)
         subtasksLiveData.value = task.subtasks
+        durationLiveData.value = taskDurationFormat.format(task.duration)
     }
 
     private fun onTaskRemoveSuccess(unit: Unit) {

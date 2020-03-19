@@ -7,7 +7,7 @@ import com.ganeeva.d.f.timemanagement.task.domain.Task
 import com.ganeeva.d.f.timemanagement.task.domain.TaskRepository
 import kotlinx.coroutines.Dispatchers
 
-class GetTaskUseCase(
+class GetAllTasksUseCase(
     private val taskRepository: TaskRepository
 ): ResultUseCase<EmptyParam, List<Task>>(Dispatchers.IO) {
 

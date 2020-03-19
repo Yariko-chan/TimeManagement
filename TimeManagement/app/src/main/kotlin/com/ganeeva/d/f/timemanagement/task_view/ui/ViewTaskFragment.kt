@@ -14,6 +14,8 @@ import kotlinx.android.synthetic.main.fragment_view_task.date_text_view
 import kotlinx.android.synthetic.main.fragment_view_task.description_text_view
 import kotlinx.android.synthetic.main.include_toolbar.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
 
@@ -53,6 +55,10 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
         viewModel.descriptionLiveData.observe(
             viewLifecycleOwner,
             Observer { description_text_view.text = it })
+        viewModel.durationLiveData.observe(
+            viewLifecycleOwner,
+            Observer { run_time_checkbox.text = it }
+        )
         viewModel.subtasksLiveData.observe(viewLifecycleOwner, Observer { adapter.updateList(it) })
         viewModel.finishLiveData.observe(viewLifecycleOwner, Observer { finish() })
         viewModel.runLiveData.observe(viewLifecycleOwner, Observer { data ->

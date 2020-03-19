@@ -8,7 +8,7 @@ import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.SingleLiveEvent
 import com.ganeeva.d.f.timemanagement.core.domain.EmptyParam
 import com.ganeeva.d.f.timemanagement.task.domain.Task
-import com.ganeeva.d.f.timemanagement.task_list.domain.GetTaskUseCase
+import com.ganeeva.d.f.timemanagement.task_list.domain.GetAllTasksUseCase
 
 abstract class TaskListViewModel : ViewModel() {
 
@@ -23,7 +23,7 @@ abstract class TaskListViewModel : ViewModel() {
 }
 
 class DefaultTaskListViewModel(
-    private val getTaskUseCase: GetTaskUseCase
+    private val getAllTasksUseCase: GetAllTasksUseCase
 ): TaskListViewModel() {
 
     override val progressLiveData = MutableLiveData<Boolean>()
@@ -42,7 +42,7 @@ class DefaultTaskListViewModel(
 
     private fun loadData() {
         progressLiveData.value = true
-        getTaskUseCase(viewModelScope, EmptyParam) { it.fold(::onTaskList, ::onError) }
+        getAllTasksUseCase(viewModelScope, EmptyParam) { it.fold(::onTaskList, ::onError) }
     }
 
     private fun onTaskList(list: List<Task>) {

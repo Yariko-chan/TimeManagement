@@ -1,5 +1,6 @@
 package com.ganeeva.d.f.timemanagement.task_view
 
+import com.ganeeva.d.f.timemanagement.core.DURATION_FORMAT
 import com.ganeeva.d.f.timemanagement.core.TASK_DATE_FORMAT
 import com.ganeeva.d.f.timemanagement.task_view.domain.GetTaskByIdUseCase
 import com.ganeeva.d.f.timemanagement.task_view.domain.RemoveTaskUseCase
@@ -18,7 +19,8 @@ val viewTaskModule = module {
         get(),
         get(),
         get(),
-        get(named(TASK_DATE_FORMAT))
+        get(named(TASK_DATE_FORMAT)),
+        get(named(DURATION_FORMAT))
     ) as ViewTaskViewModel
     }
     factory { GetTaskByIdUseCase( get() ) }
