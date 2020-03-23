@@ -1,8 +1,8 @@
-package com.ganeeva.d.f.timemanagement.task_view.ui
+package com.ganeeva.d.f.timemanagement.task_view.ui.subtask_list
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.ganeeva.d.f.timemanagement.task.domain.SubTask
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.SubTask
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_subtask_main.*
 

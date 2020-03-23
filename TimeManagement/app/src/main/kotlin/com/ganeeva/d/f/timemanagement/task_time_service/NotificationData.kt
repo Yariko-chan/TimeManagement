@@ -1,4 +1,4 @@
-package com.ganeeva.d.f.timemanagement.task_view.ui
+package com.ganeeva.d.f.timemanagement.task_time_service
 
 class NotificationData(
     val id: Long,

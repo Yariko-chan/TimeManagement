@@ -36,12 +36,16 @@ class TaskRunningService : Service() {
     var id: Long = -1L
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        id = intent.getLongExtra(ID, -1L)
-        val name = intent.getStringExtra(NAME) ?: ""
+        val newId = intent.getLongExtra(ID, -1L)
+        if (newId != id) {
+            id = newId
+            val name = intent.getStringExtra(NAME) ?: ""
 
-        val pi = createPendingIntent()
-        val notification: Notification = notificationHelper.createNotification(getString(R.string.notification_task_running), name, pi)
-        startForeground(1, notification)
+            val pi = createPendingIntent()
+            val notification: Notification = notificationHelper.createNotification(getString(R.string.notification_task_running), name, pi)
+            startForeground(1, notification)
+        }
+
         return START_NOT_STICKY
     }
 

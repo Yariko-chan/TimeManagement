@@ -27,7 +27,7 @@ class DefaultNotificationHelper(
             .setSmallIcon(R.drawable.ic_launcher_transparent)
             .setContentTitle(title)
             .setContentText(text)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
             .setContentIntent(pendingIntent)
             .build()
     }

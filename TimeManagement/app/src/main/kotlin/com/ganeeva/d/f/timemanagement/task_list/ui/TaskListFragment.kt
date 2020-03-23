@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ganeeva.d.f.timemanagement.R
-import com.ganeeva.d.f.timemanagement.core.TASK_DATE_FORMAT
+import com.ganeeva.d.f.timemanagement.core.TASK_DATE
 import com.ganeeva.d.f.timemanagement.core.extensions.gone
 import com.ganeeva.d.f.timemanagement.core.extensions.navigateWithCheck
 import com.ganeeva.d.f.timemanagement.core.extensions.visible
@@ -36,7 +36,7 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
     }
 
     private val viewModel: TaskListViewModel by viewModel()
-    private val dateFormat: SimpleDateFormat by inject(named(TASK_DATE_FORMAT))
+    private val dateFormat: SimpleDateFormat by inject(named(TASK_DATE))
     private val adapter: TaskAdapter by lazy {
         TaskAdapter(
             dateFormat = dateFormat,

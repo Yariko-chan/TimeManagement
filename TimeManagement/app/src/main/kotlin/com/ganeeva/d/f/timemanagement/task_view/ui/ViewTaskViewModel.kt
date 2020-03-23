@@ -1,16 +1,14 @@
 package com.ganeeva.d.f.timemanagement.task_view.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.SingleLiveEvent
-import com.ganeeva.d.f.timemanagement.task.domain.Task
-import com.ganeeva.d.f.timemanagement.task.domain.SubTask
-import com.ganeeva.d.f.timemanagement.task_view.domain.GetTaskByIdUseCase
+import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
 import com.ganeeva.d.f.timemanagement.task_view.domain.RemoveTaskUseCase
 import com.ganeeva.d.f.timemanagement.task_view.domain.time_gap.TimeGapInteractor
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.*
+import com.ganeeva.d.f.timemanagement.task_view.domain.GetTaskUseCase
 import java.text.SimpleDateFormat
 
 abstract class ViewTaskViewModel : ViewModel() {
@@ -21,9 +19,11 @@ abstract class ViewTaskViewModel : ViewModel() {
     abstract val subtasksLiveData: LiveData<List<SubTask>>
     abstract val errorLiveData: SingleLiveEvent<Int>
     abstract val finishLiveData: LiveData<Unit>
+    abstract val isRunningLiveData: LiveData<Boolean>
     abstract val runLiveData: LiveData<NotificationData>
     abstract val stopLiveData: LiveData<Unit>
     abstract val durationLiveData: LiveData<String>
+    abstract val timeGapsLiveData: LiveData<List<TimeGap>>
 
     abstract fun onTaskId(id: Long?)
     abstract fun onBackCliked()
@@ -32,7 +32,7 @@ abstract class ViewTaskViewModel : ViewModel() {
 }
 
 class DefaultViewTaskViewModel(
-    private val getTaskByIdUseCase: GetTaskByIdUseCase,
+    private val getTaskUseCase: GetTaskUseCase,
     private val removeTaskUseCase: RemoveTaskUseCase,
     private val timeGapInteractor: TimeGapInteractor,
     private val taskDateFormat: SimpleDateFormat,
@@ -47,9 +47,11 @@ class DefaultViewTaskViewModel(
     override val subtasksLiveData = MutableLiveData<List<SubTask>>()
     override val errorLiveData = SingleLiveEvent<Int>()
     override val finishLiveData = MutableLiveData<Unit>()
+    override val isRunningLiveData = MediatorLiveData<Boolean>()
     override val runLiveData = MutableLiveData<NotificationData>()
     override val stopLiveData = MutableLiveData<Unit>()
-    override val durationLiveData = MutableLiveData<String>()
+    override val durationLiveData = MediatorLiveData<String>()
+    override val timeGapsLiveData = MediatorLiveData<List<TimeGap>>()
 
     override fun onTaskId(id: Long?) {
         when (id) {
@@ -71,9 +73,9 @@ class DefaultViewTaskViewModel(
     }
 
     override fun onRunChecked(isChecked: Boolean) {
-        when (isChecked) {
-            true -> runTask()
-            else -> stopRunningTask()
+        when {
+            isChecked && isRunningLiveData.value == false -> runTask()
+            !isChecked && isRunningLiveData.value == true -> stopRunningTask()
         }
     }
 
@@ -82,7 +84,7 @@ class DefaultViewTaskViewModel(
     }
 
     private fun loadTask(id: Long) {
-        getTaskByIdUseCase.invoke(viewModelScope, id) { it.fold(::onTaskLoadSuccess, ::onTaskLoadError) }
+        getTaskUseCase.invoke(viewModelScope, id) { it.fold(::onTaskLoadSuccess, ::onTaskLoadError) }
     }
 
     private fun onTaskLoadSuccess(task: Task) {
@@ -90,8 +92,28 @@ class DefaultViewTaskViewModel(
         nameLiveData.value = task.name
         descriptionLiveData.value = task.description
         dateLiveData.value = taskDateFormat.format(task.creationDate)
+        durationLiveData.addSource(task.duration) { it ->
+            val format = taskDurationFormat.format(it)
+            Log.d("Duration", "viewModel on new value $it = $format")
+            durationLiveData.value = format
+        }
+        when (task) {
+            is StandaloneTask -> showStandaloneTask(task)
+            is SteppedTask -> showSteppedTask(task)
+        }
+    }
+
+    private fun showStandaloneTask(task: StandaloneTask) {
+        timeGapsLiveData.addSource(task.timeGaps) {
+            timeGapsLiveData.value = task.timeGaps.value
+        }
+        isRunningLiveData.addSource(task.timeGaps) {
+            isRunningLiveData.value = it.last().endTime == null
+        }
+    }
+
+    private fun showSteppedTask(task: SteppedTask) {
         subtasksLiveData.value = task.subtasks
-        durationLiveData.value = taskDurationFormat.format(task.duration)
     }
 
     private fun onTaskRemoveSuccess(unit: Unit) {

@@ -8,20 +8,29 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ganeeva.d.f.timemanagement.R
+import com.ganeeva.d.f.timemanagement.core.DURATION
+import com.ganeeva.d.f.timemanagement.core.TASK_START_TIME
+import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
 import com.ganeeva.d.f.timemanagement.task_time_service.TaskRunningService
+import com.ganeeva.d.f.timemanagement.task_view.ui.subtask_list.ViewSubtaskAdapter
+import com.ganeeva.d.f.timemanagement.task_view.ui.time_gaps_list.TimeGapAdapter
 import kotlinx.android.synthetic.main.fragment_view_task.*
-import kotlinx.android.synthetic.main.fragment_view_task.date_text_view
-import kotlinx.android.synthetic.main.fragment_view_task.description_text_view
 import kotlinx.android.synthetic.main.include_toolbar.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 import java.text.SimpleDateFormat
-import java.util.*
+
 
 class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
 
     private val args: ViewTaskFragmentArgs by navArgs()
     private val viewModel: ViewTaskViewModel by viewModel()
-    private val adapter: ViewSubtaskAdapter by lazy { ViewSubtaskAdapter() }
+    private val subtaskAdapter: ViewSubtaskAdapter by lazy { ViewSubtaskAdapter() }
+    private val startTimeFormat by inject<SimpleDateFormat>(named(TASK_START_TIME))
+    private val durationFormat by inject<SimpleDateFormat>(named(DURATION))
+    private val timeGapsAdapter: TimeGapAdapter by lazy {
+        TimeGapAdapter(dateFormat = startTimeFormat, durationFormat = durationFormat) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,7 +42,17 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
     private fun setupView() {
         setupToolbar()
         setupSubtasksList()
-        run_time_checkbox.setOnCheckedChangeListener { _, isChecked -> viewModel.onRunChecked(isChecked) }
+        setupTimeGapsList()
+        setupRunCheckBox()
+    }
+
+    private fun setupRunCheckBox() {
+        run_time_checkbox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onRunChecked(isChecked)
+        }
+        viewModel.isRunningLiveData.observe(viewLifecycleOwner, Observer {
+            run_time_checkbox.isChecked = it
+        })
     }
 
     private fun setupToolbar() {
@@ -46,7 +65,13 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
     private fun setupSubtasksList() {
         task_list_recycler_view.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        task_list_recycler_view.adapter = adapter
+        task_list_recycler_view.adapter = subtaskAdapter
+    }
+
+    private fun setupTimeGapsList() {
+        time_gaps_recycler_view.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        time_gaps_recycler_view.adapter = timeGapsAdapter
     }
 
     private fun subscribeViewModel() {
@@ -57,9 +82,11 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
             Observer { description_text_view.text = it })
         viewModel.durationLiveData.observe(
             viewLifecycleOwner,
-            Observer { run_time_checkbox.text = it }
+            Observer {
+                run_time_checkbox.text = it }
         )
-        viewModel.subtasksLiveData.observe(viewLifecycleOwner, Observer { adapter.updateList(it) })
+        viewModel.subtasksLiveData.observe(viewLifecycleOwner, Observer { subtaskAdapter.updateList(it) })
+        viewModel.timeGapsLiveData.observe(viewLifecycleOwner, Observer { timeGapsAdapter.updateList(it) })
         viewModel.finishLiveData.observe(viewLifecycleOwner, Observer { finish() })
         viewModel.runLiveData.observe(viewLifecycleOwner, Observer { data ->
             startTaskRunningService(data)

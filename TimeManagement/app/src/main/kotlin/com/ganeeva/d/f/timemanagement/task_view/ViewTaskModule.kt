@@ -1,8 +1,8 @@
 package com.ganeeva.d.f.timemanagement.task_view
 
-import com.ganeeva.d.f.timemanagement.core.DURATION_FORMAT
-import com.ganeeva.d.f.timemanagement.core.TASK_DATE_FORMAT
-import com.ganeeva.d.f.timemanagement.task_view.domain.GetTaskByIdUseCase
+import com.ganeeva.d.f.timemanagement.core.DURATION
+import com.ganeeva.d.f.timemanagement.core.TASK_DATE
+import com.ganeeva.d.f.timemanagement.task_view.domain.GetTaskUseCase
 import com.ganeeva.d.f.timemanagement.task_view.domain.RemoveTaskUseCase
 import com.ganeeva.d.f.timemanagement.task_view.domain.time_gap.DefaultTimeGapInteractor
 import com.ganeeva.d.f.timemanagement.task_view.domain.time_gap.StartTaskUseCase
@@ -19,11 +19,11 @@ val viewTaskModule = module {
         get(),
         get(),
         get(),
-        get(named(TASK_DATE_FORMAT)),
-        get(named(DURATION_FORMAT))
+        get(named(TASK_DATE)),
+        get(named(DURATION))
     ) as ViewTaskViewModel
     }
-    factory { GetTaskByIdUseCase( get() ) }
+    factory { GetTaskUseCase( get()) }
     factory { RemoveTaskUseCase( get() ) }
     factory { DefaultTimeGapInteractor( get(), get() ) as TimeGapInteractor }
     factory { StartTaskUseCase( get() ) }

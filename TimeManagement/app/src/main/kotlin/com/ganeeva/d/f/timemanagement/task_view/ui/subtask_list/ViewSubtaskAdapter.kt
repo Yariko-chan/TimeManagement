@@ -1,10 +1,10 @@
-package com.ganeeva.d.f.timemanagement.task_view.ui
+package com.ganeeva.d.f.timemanagement.task_view.ui.subtask_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ganeeva.d.f.timemanagement.R
-import com.ganeeva.d.f.timemanagement.task.domain.SubTask
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.SubTask
 
 class ViewSubtaskAdapter(
     initialList: List<SubTask>? = null
@@ -23,7 +23,9 @@ class ViewSubtaskAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewSubtaskViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_subtask_view, parent, false)
-        return ViewSubtaskViewHolder(view)
+        return ViewSubtaskViewHolder(
+            view
+        )
     }
 
     override fun getItemCount(): Int = items.size
