@@ -97,4 +97,11 @@
         <item name="android:textAppearance">@style/TextAppearance.Primary.Medium</item>
     </style>
 
+    <style name="RunCheckBox">
+        <item name="android:button">@null</item>
+        <item name="android:drawableEnd">@drawable/run_checkable</item>
+        <item name="android:textAppearance">@style/TextAppearance.Primary.Large</item>
+        <item name="android:textColor">@color/run_checkbox_text_color</item>
+    </style>
+
 </resources>
