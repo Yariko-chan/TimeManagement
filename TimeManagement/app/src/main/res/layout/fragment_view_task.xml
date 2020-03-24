@@ -53,8 +53,7 @@
                 android:layout_marginStart="@dimen/margin_large"
                 android:textAppearance="@style/TextAppearance.Primary.Large.Bold"
                 android:text="@string/time_gaps"
-                app:layout_constraintTop_toTopOf="@id/run_time_checkbox"
-                app:layout_constraintBottom_toBottomOf="@id/run_time_checkbox"
+                app:layout_constraintBaseline_toBaselineOf="@id/run_time_checkbox"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/run_time_checkbox"
                 />

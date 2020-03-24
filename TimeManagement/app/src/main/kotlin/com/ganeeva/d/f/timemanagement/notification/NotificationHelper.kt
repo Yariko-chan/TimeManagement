@@ -12,6 +12,7 @@ import com.ganeeva.d.f.timemanagement.R
 interface NotificationHelper {
 
     fun createNotification(title: String, text: String, pendingIntent: PendingIntent): Notification
+    fun notify(id: Int, notification: Notification)
 }
 
 class DefaultNotificationHelper(
@@ -27,9 +28,14 @@ class DefaultNotificationHelper(
             .setSmallIcon(R.drawable.ic_launcher_transparent)
             .setContentTitle(title)
             .setContentText(text)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setSound(null)
             .setContentIntent(pendingIntent)
             .build()
+    }
+
+    override fun notify(id: Int, notification: Notification) {
+        notificationManager.notify(id, notification)
     }
 
     private fun createNotificationChannel() {
@@ -37,6 +43,7 @@ class DefaultNotificationHelper(
                 notificationManager.getNotificationChannel(channelId) == null) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(channelId, channelName, importance)
+            channel.setSound(null, null)
             notificationManager.createNotificationChannel(channel)
         }
     }
