@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ganeeva.d.f.timemanagement.core.extensions.gone
 import com.ganeeva.d.f.timemanagement.core.extensions.visible
 import com.ganeeva.d.f.timemanagement.task_list.ui.subtask_list.MainSubtaskAdapter
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.StandaloneTask
 import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.SteppedTask
 import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.Task
 import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.isRunning
@@ -28,18 +29,11 @@ class TaskViewHolder(
         subtasks_recyclerview.adapter = adapter
     }
 
-    fun bind(task: Task) {
+    fun bind(task: Task, onChecked: (isChecked: Boolean, task: Task) -> Unit) {
         header_text_view.text = task.name
         showDescription(task.description)
         date_text_view.text = dateFormat.format(Date(task.creationDate))
-        run_time_checkbox.setOnCheckedChangeListener(null)
-        run_time_checkbox.apply {
-            isChecked = task.isRunning()
-            text = task.duration.value?.let { durationFormat.format(it) } ?: "" // todo use other model?
-        }
-        run_time_checkbox.setOnCheckedChangeListener { _, isChecked ->
-            onChecked(isChecked)
-        }
+        showRunCheckBox(task, onChecked)
         if (task is SteppedTask) {
             adapter.updateList(task.subtasks)
         }
@@ -53,6 +47,22 @@ class TaskViewHolder(
                 description_text_view.text = description
             }
         }
+    }
+
+    private fun showRunCheckBox(
+        task: Task,
+        onChecked: (isChecked: Boolean, task: Task) -> Unit
+    ) {
+        run_time_checkbox.setOnCheckedChangeListener(null)
+        run_time_checkbox.apply {
+            isChecked = task.isRunning()
+            text = task.duration.value?.let { durationFormat.format(it) }
+                ?: "" // todo use other model?
+        }
+        run_time_checkbox.setOnCheckedChangeListener { _, isChecked ->
+            onChecked(isChecked, task)
+        }
+        run_time_checkbox.isEnabled = task is StandaloneTask
     }
 
     fun updateDuration(duration: Long) {

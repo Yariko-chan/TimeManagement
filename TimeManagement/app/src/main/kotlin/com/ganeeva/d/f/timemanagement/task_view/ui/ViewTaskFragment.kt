@@ -2,6 +2,7 @@ package com.ganeeva.d.f.timemanagement.task_view.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -92,6 +93,7 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
             startTaskRunningService(data)
         })
         viewModel.stopLiveData.observe(viewLifecycleOwner, Observer { stopTaskRunningService() })
+        viewModel.errorLiveData.observe(viewLifecycleOwner, Observer { showError(it) })
     }
 
     private fun startTaskRunningService(data: NotificationData) {
@@ -106,5 +108,9 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
 
     private fun finish() {
         findNavController().popBackStack()
+    }
+
+    private fun showError(errorMsgId: Int) {
+        Toast.makeText(context, errorMsgId, Toast.LENGTH_LONG).show()
     }
 }

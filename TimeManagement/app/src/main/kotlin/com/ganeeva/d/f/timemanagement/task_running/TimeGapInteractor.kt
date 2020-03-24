@@ -1,6 +1,5 @@
-package com.ganeeva.d.f.timemanagement.task_view.domain.time_gap
+package com.ganeeva.d.f.timemanagement.task_running
 
-import com.ganeeva.d.f.timemanagement.core.domain.Either
 import kotlinx.coroutines.CoroutineScope
 
 interface TimeGapInteractor {

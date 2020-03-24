@@ -7,6 +7,7 @@ import com.ganeeva.d.f.timemanagement.new_task.newTaskModule
 import com.ganeeva.d.f.timemanagement.notification.notificationModule
 import com.ganeeva.d.f.timemanagement.task.taskModule
 import com.ganeeva.d.f.timemanagement.task_list.taskListModule
+import com.ganeeva.d.f.timemanagement.task_running.taskRunningModule
 import com.ganeeva.d.f.timemanagement.task_view.viewTaskModule
 import com.ganeeva.d.f.timemanagement.time_gap.timeGapModule
 import com.ganeeva.d.f.timemanagement.tmp.full_task.fullTaskModule
@@ -35,6 +36,7 @@ class App : Application() {
                 taskListModule,
                 newTaskModule,
                 viewTaskModule,
+                taskRunningModule,
                 fullTaskModule // todo refactor
             )
         }

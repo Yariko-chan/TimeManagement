@@ -6,7 +6,7 @@ import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.SingleLiveEvent
 import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
 import com.ganeeva.d.f.timemanagement.task_view.domain.RemoveTaskUseCase
-import com.ganeeva.d.f.timemanagement.task_view.domain.time_gap.TimeGapInteractor
+import com.ganeeva.d.f.timemanagement.task_running.TimeGapInteractor
 import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.*
 import com.ganeeva.d.f.timemanagement.task_view.domain.GetTaskUseCase
 import java.text.SimpleDateFormat

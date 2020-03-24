@@ -7,6 +7,6 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val taskListModule = module {
-    viewModel { DefaultTaskListViewModel(get()) as TaskListViewModel }
+    viewModel { DefaultTaskListViewModel( get(), get() ) as TaskListViewModel }
     factory { GetAllTasksUseCase( get() ) }
 }

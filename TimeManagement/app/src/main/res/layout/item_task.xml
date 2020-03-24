@@ -27,6 +27,7 @@
         android:button="@null"
         android:drawableEnd="@drawable/run_checkable"
         android:textAppearance="@style/TextAppearance.Primary.Large"
+        android:textColor="@color/run_checkbox_text_color"
         app:layout_constraintBaseline_toBaselineOf="@id/header_text_view"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="00:00"

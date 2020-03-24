@@ -16,6 +16,8 @@ import com.ganeeva.d.f.timemanagement.core.extensions.gone
 import com.ganeeva.d.f.timemanagement.core.extensions.navigateWithCheck
 import com.ganeeva.d.f.timemanagement.core.extensions.visible
 import com.ganeeva.d.f.timemanagement.task_list.ui.task_list.TaskAdapter
+import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
+import com.ganeeva.d.f.timemanagement.task_time_service.TaskRunningService
 import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.StandaloneTask
 import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.SteppedTask
 import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.Task
@@ -47,6 +49,7 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
             dateFormat = dateFormat,
             durationFormat = durationFormat,
             onClick = { position, task -> onTaskClicked(position, task) })
+        { isChecked, task -> viewModel.onTaskChecked(task, isChecked)}
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,6 +86,11 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
             val action = TaskListFragmentDirections.actionTaskListToViewTask(id)
             view.findNavController().navigateWithCheck(action)
         })
+        viewModel.runLiveData.observe(viewLifecycleOwner, Observer { data ->
+            startTaskRunningService(data)
+        })
+        viewModel.stopLiveData.observe(viewLifecycleOwner, Observer { stopTaskRunningService() })
+        viewModel.errorLiveData.observe(viewLifecycleOwner, Observer { showError(it) })
     }
 
     override fun onStart() {
@@ -152,7 +160,21 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
         }
     }
 
+    private fun startTaskRunningService(data: NotificationData) {
+        context?.run {
+            TaskRunningService.start(this, data.id, data.name)
+        }
+    }
+
+    private fun stopTaskRunningService() {
+        context?.run { TaskRunningService.stop(this) }
+    }
+
     private fun onTaskClicked(position: Int, task: Task) {
         viewModel.onTaskClicked(position, task)
+    }
+
+    private fun showError(errorMsgId: Int) {
+        Toast.makeText(context, errorMsgId, Toast.LENGTH_LONG).show()
     }
 }

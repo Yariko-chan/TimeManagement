@@ -4,10 +4,10 @@ import com.ganeeva.d.f.timemanagement.core.DURATION
 import com.ganeeva.d.f.timemanagement.core.TASK_DATE
 import com.ganeeva.d.f.timemanagement.task_view.domain.GetTaskUseCase
 import com.ganeeva.d.f.timemanagement.task_view.domain.RemoveTaskUseCase
-import com.ganeeva.d.f.timemanagement.task_view.domain.time_gap.DefaultTimeGapInteractor
-import com.ganeeva.d.f.timemanagement.task_view.domain.time_gap.StartTaskUseCase
-import com.ganeeva.d.f.timemanagement.task_view.domain.time_gap.StopTaskUseCase
-import com.ganeeva.d.f.timemanagement.task_view.domain.time_gap.TimeGapInteractor
+import com.ganeeva.d.f.timemanagement.task_running.DefaultTimeGapInteractor
+import com.ganeeva.d.f.timemanagement.task_running.StartTaskUseCase
+import com.ganeeva.d.f.timemanagement.task_running.StopTaskUseCase
+import com.ganeeva.d.f.timemanagement.task_running.TimeGapInteractor
 import com.ganeeva.d.f.timemanagement.task_view.ui.DefaultViewTaskViewModel
 import com.ganeeva.d.f.timemanagement.task_view.ui.ViewTaskViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -25,7 +25,4 @@ val viewTaskModule = module {
     }
     factory { GetTaskUseCase( get()) }
     factory { RemoveTaskUseCase( get() ) }
-    factory { DefaultTimeGapInteractor( get(), get() ) as TimeGapInteractor }
-    factory { StartTaskUseCase( get() ) }
-    factory { StopTaskUseCase( get() ) }
 }

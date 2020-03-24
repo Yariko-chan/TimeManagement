@@ -13,7 +13,8 @@ class TaskAdapter(
     initialList: List<Task>? = null,
     private val onClick: OnClick? = null,
     val dateFormat: SimpleDateFormat,
-    val durationFormat: SimpleDateFormat
+    val durationFormat: SimpleDateFormat,
+    val onCheckedListener: (isChecked: Boolean, task: Task) -> Unit
 ): RecyclerView.Adapter<TaskViewHolder>() {
 
     private val items = mutableListOf<Task>()
@@ -46,7 +47,7 @@ class TaskAdapter(
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], onCheckedListener)
     }
 
     override fun onBindViewHolder(

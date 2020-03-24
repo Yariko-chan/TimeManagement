@@ -8,7 +8,11 @@ import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.SingleLiveEvent
 import com.ganeeva.d.f.timemanagement.core.domain.EmptyParam
 import com.ganeeva.d.f.timemanagement.task_list.domain.GetAllTasksUseCase
+import com.ganeeva.d.f.timemanagement.task_running.TimeGapInteractor
+import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.StandaloneTask
 import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.Task
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.isRunning
 
 abstract class TaskListViewModel : ViewModel() {
 
@@ -17,13 +21,18 @@ abstract class TaskListViewModel : ViewModel() {
     abstract val emptyListLiveData: LiveData<Unit>
     abstract val errorEvent: SingleLiveEvent<Int>
     abstract val showTaskEvent: SingleLiveEvent<Long>
+    abstract val runLiveData: LiveData<NotificationData>
+    abstract val stopLiveData: LiveData<Unit>
+    abstract val errorLiveData: SingleLiveEvent<Int>
 
     abstract fun onViewVisible()
     abstract fun onTaskClicked(position: Int, task: Task)
+    abstract fun onTaskChecked(task: Task, isChecked: Boolean)
 }
 
 class DefaultTaskListViewModel(
-    private val getAllTasksUseCase: GetAllTasksUseCase
+    private val getAllTasksUseCase: GetAllTasksUseCase,
+    private val timeGapInteractor: TimeGapInteractor
 ): TaskListViewModel() {
 
     override val progressLiveData = MutableLiveData<Boolean>()
@@ -31,6 +40,9 @@ class DefaultTaskListViewModel(
     override val emptyListLiveData = MutableLiveData<Unit>()
     override val errorEvent = SingleLiveEvent<Int>()
     override val showTaskEvent = SingleLiveEvent<Long>()
+    override val runLiveData = MutableLiveData<NotificationData>()
+    override val stopLiveData = MutableLiveData<Unit>()
+    override val errorLiveData = SingleLiveEvent<Int>()
 
     override fun onViewVisible() {
         loadData()
@@ -38,6 +50,13 @@ class DefaultTaskListViewModel(
 
     override fun onTaskClicked(position: Int, task: Task) {
         showTaskEvent.value = task.id
+    }
+
+    override fun onTaskChecked(task: Task, isChecked: Boolean) {
+        when {
+            isChecked && !task.isRunning() -> runTask(task)
+            !isChecked && task.isRunning() -> stopRunningTask(task)
+        }
     }
 
     private fun loadData() {
@@ -57,5 +76,25 @@ class DefaultTaskListViewModel(
         progressLiveData.value = false
         emptyListLiveData.value = Unit
         errorEvent.value = R.string.error_get_task_list
+    }
+
+    private fun runTask(task: Task) {
+        if (task is StandaloneTask) {
+            timeGapInteractor.startTask(viewModelScope, task.id,
+                onSuccess = { runLiveData.value = NotificationData(task.id, task.name) },
+                onError = { errorLiveData.value = R.string.error_task_running} )
+        } else {
+            errorLiveData.value = R.string.error_task_has_subtask
+        }
+    }
+
+    private fun stopRunningTask(task: Task) {
+        if (task is StandaloneTask) {
+            timeGapInteractor.stopTask(viewModelScope, task.id,
+                onSuccess = { stopLiveData.value = Unit },
+                onError = { errorLiveData.value = R.string.error_task_stopping} )
+        } else {
+            errorLiveData.value = R.string.error_task_has_subtask
+        }
     }
 }
