@@ -1,4 +1,4 @@
-package com.ganeeva.d.f.timemanagement.task.data
+package com.ganeeva.d.f.timemanagement.task.data.mappers
 
 import com.ganeeva.d.f.timemanagement.core.Mapper
 import com.ganeeva.d.f.timemanagement.db.time_gap.DbTimeGap

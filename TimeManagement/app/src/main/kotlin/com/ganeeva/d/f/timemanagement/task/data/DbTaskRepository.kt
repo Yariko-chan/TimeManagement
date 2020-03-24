@@ -6,6 +6,7 @@ import androidx.lifecycle.switchMap
 import com.ganeeva.d.f.timemanagement.db.TaskDatabase
 import com.ganeeva.d.f.timemanagement.db.task.DbTask
 import com.ganeeva.d.f.timemanagement.new_task.domain.NewTask
+import com.ganeeva.d.f.timemanagement.task.data.mappers.*
 import com.ganeeva.d.f.timemanagement.task.domain.TaskRepository
 import com.ganeeva.d.f.timemanagement.task.domain.model.Duration
 import com.ganeeva.d.f.timemanagement.task.domain.model.OverallDuration
@@ -18,7 +19,10 @@ import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
 class DbTaskRepository(
     private val db: TaskDatabase,
     private val newTaskMapper: NewTaskMapper,
-    private val timeGapMapper: DbTimeGapMapper
+    private val timeGapMapper: DbTimeGapMapper,
+    private val standaloneTaskMapper: StandaloneTaskMapper,
+    private val subTaskMapper: SubTaskMapper,
+    private val steppedTaskMapper: SteppedTaskMapper
 ) : TaskRepository {
 
     override fun saveTask(task: NewTask) {
@@ -58,37 +62,17 @@ class DbTaskRepository(
     private fun getStandaloneTask(mainTask: DbTask): StandaloneTask {
         val gaps = getGapsForTask(mainTask.id)
         val duration = getDuration(gaps)
-        return StandaloneTask(
-            mainTask.id,
-            mainTask.name,
-            mainTask.description,
-            mainTask.creationDate,
-            duration,
-            gaps
-        )
+        return standaloneTaskMapper.map(mainTask, duration, gaps)
     }
 
     private fun getSteppedTask(mainTask: DbTask, dbSubtasks: List<DbTask>): SteppedTask {
         val subtasks = dbSubtasks.map { subtask ->
             val gaps = getGapsForTask(subtask.id)
             val duration = getDuration(gaps)
-            SubTask(
-                subtask.id,
-                subtask.name,
-                subtask.parentTaskId!!,
-                duration,
-                gaps
-            )
+            subTaskMapper.map(subtask, duration, gaps)
         }
         val overallDuration = getOverallDuration(subtasks)
-        return SteppedTask(
-            mainTask.id,
-            mainTask.name,
-            mainTask.description,
-            mainTask.creationDate,
-            overallDuration,
-            subtasks
-        )
+        return steppedTaskMapper.map(mainTask, overallDuration, subtasks)
     }
 
     private fun getOverallDuration(subtasks: List<SubTask>): LiveData<Long> {

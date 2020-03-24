@@ -1,4 +1,4 @@
-package com.ganeeva.d.f.timemanagement.task.data
+package com.ganeeva.d.f.timemanagement.task.data.mappers
 
 import com.ganeeva.d.f.timemanagement.db.task.DbTask
 import com.ganeeva.d.f.timemanagement.new_task.domain.NewTask
