@@ -16,8 +16,21 @@
         android:textAppearance="@style/TextAppearance.Primary.Large.Bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/run_time_checkbox"
         tools:text="Header"
+        />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/run_time_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:button="@null"
+        android:drawableEnd="@drawable/run_checkable"
+        android:textAppearance="@style/TextAppearance.Primary.Large"
+        app:layout_constraintBaseline_toBaselineOf="@id/header_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="00:00"
+        tools:checked="true"
         />
 
     <TextView

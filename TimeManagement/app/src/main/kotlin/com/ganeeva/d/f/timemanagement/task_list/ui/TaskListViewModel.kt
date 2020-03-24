@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.SingleLiveEvent
 import com.ganeeva.d.f.timemanagement.core.domain.EmptyParam
-import com.ganeeva.d.f.timemanagement.task.domain.Task
 import com.ganeeva.d.f.timemanagement.task_list.domain.GetAllTasksUseCase
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.Task
 
 abstract class TaskListViewModel : ViewModel() {
 

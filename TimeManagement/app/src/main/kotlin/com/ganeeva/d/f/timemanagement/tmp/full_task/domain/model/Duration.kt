@@ -12,7 +12,7 @@ class Duration(private val timeGaps: List<TimeGap>): LiveData<Long>() {
     private val durationFormat = SimpleDateFormat(DURATION_FORNAT, Locale.ROOT)
     private val startTimeFormat = SimpleDateFormat(TASK_START_TIME_SEC_FORMAT, Locale.ROOT)
 
-    private val isTaskRunning: Boolean = timeGaps.last().endTime == null
+    private val isTaskRunning: Boolean = timeGaps.isNotEmpty() && timeGaps.last().endTime == null
     private val stableSum: Long
     private var incrementJob: Job? = null
 

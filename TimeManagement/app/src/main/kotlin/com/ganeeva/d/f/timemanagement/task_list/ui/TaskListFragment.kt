@@ -10,12 +10,16 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ganeeva.d.f.timemanagement.R
+import com.ganeeva.d.f.timemanagement.core.DURATION
 import com.ganeeva.d.f.timemanagement.core.TASK_DATE
 import com.ganeeva.d.f.timemanagement.core.extensions.gone
 import com.ganeeva.d.f.timemanagement.core.extensions.navigateWithCheck
 import com.ganeeva.d.f.timemanagement.core.extensions.visible
-import com.ganeeva.d.f.timemanagement.task.domain.Task
 import com.ganeeva.d.f.timemanagement.task_list.ui.task_list.TaskAdapter
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.StandaloneTask
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.SteppedTask
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.Task
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.isRunning
 import kotlinx.android.synthetic.main.fragment_task_list.*
 import kotlinx.android.synthetic.main.include_background_text.*
 import kotlinx.android.synthetic.main.include_progress.*
@@ -37,9 +41,11 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
 
     private val viewModel: TaskListViewModel by viewModel()
     private val dateFormat: SimpleDateFormat by inject(named(TASK_DATE))
+    private val durationFormat: SimpleDateFormat by inject(named(DURATION))
     private val adapter: TaskAdapter by lazy {
         TaskAdapter(
             dateFormat = dateFormat,
+            durationFormat = durationFormat,
             onClick = { position, task -> onTaskClicked(position, task) })
     }
 
@@ -59,6 +65,8 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
             progress_group.visibility = if(it) View.VISIBLE else View.GONE
         })
         viewModel.tasksListLiveData.observe(viewLifecycleOwner, Observer {
+            subscribeItemsDuration(it)
+            subscribeItemsRunning(it)
             adapter.updateList(it)
             background_text.gone()
             task_recycler_view.visible()
@@ -103,6 +111,45 @@ class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
         }
         onStartClicked?.let { start_image_view.setOnClickListener(it) }
         onEndClicked?.let{ end_image_view.setOnClickListener(it) }
+    }
+
+    private fun subscribeItemsDuration(it: List<Task>) {
+        adapter.displayedItems.forEach {
+            it.duration.removeObservers(viewLifecycleOwner)
+        }
+        for ((index, value) in it.withIndex()) {
+            value.duration.observe(viewLifecycleOwner, Observer { newDuration ->
+                adapter.notifyItemChanged(index, newDuration) })
+        }
+    }
+
+    private fun subscribeItemsRunning(taskList: List<Task>) {
+        adapter.displayedItems.forEach { task ->
+            when (task) {
+                is StandaloneTask -> {
+                    task.timeGaps.removeObservers(viewLifecycleOwner)
+                }
+                is SteppedTask -> {
+                    task.subtasks.forEach { subtask ->
+                        subtask.timeGaps.removeObservers(viewLifecycleOwner)
+                    }
+                }
+            }
+        }
+        for ((index, task) in taskList.withIndex() ) {
+            when (task) {
+                is StandaloneTask -> {
+                    task.timeGaps.observe(viewLifecycleOwner, Observer {
+                        adapter.notifyItemChanged(index, task.isRunning()) })
+                }
+                is SteppedTask -> {
+                    task.subtasks.forEach { subtask ->
+                        subtask.timeGaps.observe(viewLifecycleOwner, Observer {
+                            adapter.notifyItemChanged(index, task.isRunning()) })
+                    }
+                }
+            }
+        }
     }
 
     private fun onTaskClicked(position: Int, task: Task) {

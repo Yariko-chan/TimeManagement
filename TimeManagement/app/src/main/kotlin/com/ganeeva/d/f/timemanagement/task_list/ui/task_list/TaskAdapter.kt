@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ganeeva.d.f.timemanagement.R
-import com.ganeeva.d.f.timemanagement.task.domain.Task
+import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.Task
 import java.text.SimpleDateFormat
 
 typealias OnClick = (position: Int, item: Task) -> Unit
@@ -12,11 +12,15 @@ typealias OnClick = (position: Int, item: Task) -> Unit
 class TaskAdapter(
     initialList: List<Task>? = null,
     private val onClick: OnClick? = null,
-    val dateFormat: SimpleDateFormat
+    val dateFormat: SimpleDateFormat,
+    val durationFormat: SimpleDateFormat
 ): RecyclerView.Adapter<TaskViewHolder>() {
 
     private val items = mutableListOf<Task>()
         .apply { initialList?.let { addAll(initialList) } }
+
+    val displayedItems: List<Task>
+        get() = items
 
     fun updateList(list: List<Task>) {
         items.apply {
@@ -27,7 +31,7 @@ class TaskAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
-        val holder = TaskViewHolder(view, dateFormat)
+        val holder = TaskViewHolder(view, dateFormat, durationFormat)
         onClick?.let {
             holder.containerView.setOnClickListener {
                 val position = holder.adapterPosition
@@ -43,5 +47,22 @@ class TaskAdapter(
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.bind(items[position])
+    }
+
+    override fun onBindViewHolder(
+        holder: TaskViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            payloads.forEach { payload ->
+                when (payload) {
+                    is Long -> holder.updateDuration(payload)
+                    is Boolean -> holder.updateCheckedButton(payload)
+                }
+            }
+        }
     }
 }

@@ -11,10 +11,23 @@ import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.*
 class DbTaskRepository(
     private val db: TaskDatabase,
     private val timeGapMapper: DbTimeGapMapper
-) {
+) : TaskRepository {
 
-    fun getTask(id: Long) : Task {
+    override fun getTask(id: Long) : Task {
         val mainTask = db.taskDao.getById(id)
+        return getFullTaskInfo(mainTask)
+    }
+
+    override fun getAll() : List<Task> {
+        val dbTasks = db.taskDao.getAllTasks()
+        val tasks = mutableListOf<Task>()
+        dbTasks.forEach { mainTask ->
+            tasks +=getFullTaskInfo(mainTask)
+        }
+        return tasks
+    }
+
+    private fun getFullTaskInfo(mainTask: DbTask): Task {
         val subtasks = db.taskDao.getSubTasks(mainTask.id)
         return if (subtasks.isEmpty()) {
             getStandaloneTask(mainTask)
