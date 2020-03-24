@@ -1,8 +1,9 @@
-package com.ganeeva.d.f.timemanagement.task.domain.model
+package com.ganeeva.d.f.timemanagement.task.domain.model.duration
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ganeeva.d.f.timemanagement.core.*
+import com.ganeeva.d.f.timemanagement.task.domain.model.TimeGap
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*

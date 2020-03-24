@@ -8,8 +8,8 @@ import com.ganeeva.d.f.timemanagement.db.task.DbTask
 import com.ganeeva.d.f.timemanagement.new_task.domain.NewTask
 import com.ganeeva.d.f.timemanagement.task.data.mappers.*
 import com.ganeeva.d.f.timemanagement.task.domain.TaskRepository
-import com.ganeeva.d.f.timemanagement.task.domain.model.Duration
-import com.ganeeva.d.f.timemanagement.task.domain.model.OverallDuration
+import com.ganeeva.d.f.timemanagement.task.domain.model.duration.Duration
+import com.ganeeva.d.f.timemanagement.task.domain.model.duration.OverallDuration
 import com.ganeeva.d.f.timemanagement.task.domain.model.TimeGap
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.StandaloneTask
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.SteppedTask
