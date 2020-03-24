@@ -10,10 +10,24 @@
 
     <TextView
         android:id="@+id/name_text_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/run_time_checkbox"
         tools:text="secondary task secondary task se ondary task "
         style="@style/SubtaskText" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/run_time_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Primary.Medium"
+        app:layout_constraintBaseline_toBaselineOf="@id/name_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="00:00"
+        tools:checked="true"
+        style="@style/RunCheckBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

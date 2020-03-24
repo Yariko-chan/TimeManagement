@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.DURATION
 import com.ganeeva.d.f.timemanagement.core.TASK_START_TIME
+import com.ganeeva.d.f.timemanagement.task.domain.model.subtask.SubTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.subtask.isRunning
 import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
 import com.ganeeva.d.f.timemanagement.task_time_service.TaskRunningService
-import com.ganeeva.d.f.timemanagement.task_view.ui.subtask_list.ViewSubtaskAdapter
+import com.ganeeva.d.f.timemanagement.task_view.ui.subtask_list.ViewSubTaskAdapter
 import com.ganeeva.d.f.timemanagement.task_view.ui.time_gaps_list.TimeGapAdapter
 import kotlinx.android.synthetic.main.fragment_view_task.*
 import kotlinx.android.synthetic.main.include_toolbar.*
@@ -27,11 +29,13 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
 
     private val args: ViewTaskFragmentArgs by navArgs()
     private val viewModel: ViewTaskViewModel by viewModel()
-    private val subtaskAdapter: ViewSubtaskAdapter by lazy { ViewSubtaskAdapter() }
+    private val durationFormat: SimpleDateFormat by inject(named(DURATION))
     private val startTimeFormat by inject<SimpleDateFormat>(named(TASK_START_TIME))
-    private val durationFormat by inject<SimpleDateFormat>(named(DURATION))
     private val timeGapsAdapter: TimeGapAdapter by lazy {
         TimeGapAdapter(dateFormat = startTimeFormat, durationFormat = durationFormat) }
+    private val subTaskAdapter: ViewSubTaskAdapter by lazy {
+        ViewSubTaskAdapter(durationFormat = durationFormat)
+        { isChecked, task -> viewModel.onSubTaskChecked(task, isChecked)} }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,7 +70,7 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
     private fun setupSubtasksList() {
         task_list_recycler_view.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        task_list_recycler_view.adapter = subtaskAdapter
+        task_list_recycler_view.adapter = subTaskAdapter
     }
 
     private fun setupTimeGapsList() {
@@ -86,7 +90,13 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
             Observer {
                 run_time_checkbox.text = it }
         )
-        viewModel.subtasksLiveData.observe(viewLifecycleOwner, Observer { subtaskAdapter.updateList(it) })
+        viewModel.isRunEnabledLiveData.observe(viewLifecycleOwner, Observer {
+            run_time_checkbox.isEnabled = it
+        })
+        viewModel.subtasksLiveData.observe(viewLifecycleOwner, Observer {
+            subscribeItemsRunning(it)
+            subscribeItemsDuration(it)
+            subTaskAdapter.updateList(it) })
         viewModel.timeGapsLiveData.observe(viewLifecycleOwner, Observer { timeGapsAdapter.updateList(it) })
         viewModel.finishLiveData.observe(viewLifecycleOwner, Observer { finish() })
         viewModel.runLiveData.observe(viewLifecycleOwner, Observer { data ->
@@ -112,5 +122,25 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
 
     private fun showError(errorMsgId: Int) {
         Toast.makeText(context, errorMsgId, Toast.LENGTH_LONG).show()
+    }
+
+    private fun subscribeItemsDuration(it: List<SubTask>) {
+        subTaskAdapter.displayedItems.forEach {
+            it.duration.removeObservers(viewLifecycleOwner)
+        }
+        for ((index, value) in it.withIndex()) {
+            value.duration.observe(viewLifecycleOwner, Observer { newDuration ->
+                subTaskAdapter.notifyItemChanged(index, newDuration) })
+        }
+    }
+
+    private fun subscribeItemsRunning(taskList: List<SubTask>) {
+        subTaskAdapter.displayedItems.forEach { task ->
+            task.timeGaps.removeObservers(viewLifecycleOwner)
+        }
+        for ((index, task) in taskList.withIndex() ) {
+            task.timeGaps.observe(viewLifecycleOwner, Observer {
+                subTaskAdapter.notifyItemChanged(index, task.isRunning()) })
+        }
     }
 }

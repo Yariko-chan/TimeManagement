@@ -3,7 +3,7 @@ package com.ganeeva.d.f.timemanagement.task.data.mappers
 import androidx.lifecycle.LiveData
 import com.ganeeva.d.f.timemanagement.db.task.DbTask
 import com.ganeeva.d.f.timemanagement.task.domain.model.TimeGap
-import com.ganeeva.d.f.timemanagement.task.domain.model.task.SubTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.subtask.SubTask
 
 class SubTaskMapper {
 

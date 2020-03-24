@@ -7,7 +7,8 @@ import com.ganeeva.d.f.timemanagement.core.SingleLiveEvent
 import com.ganeeva.d.f.timemanagement.task.domain.model.TimeGap
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.StandaloneTask
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.SteppedTask
-import com.ganeeva.d.f.timemanagement.task.domain.model.task.SubTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.subtask.SubTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.subtask.isRunning
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
 import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
 import com.ganeeva.d.f.timemanagement.task_view.domain.RemoveTaskUseCase
@@ -20,6 +21,7 @@ abstract class ViewTaskViewModel : ViewModel() {
     abstract val nameLiveData: LiveData<String>
     abstract val descriptionLiveData: LiveData<String>
     abstract val dateLiveData: LiveData<String>
+    abstract val isRunEnabledLiveData: LiveData<Boolean>
     abstract val subtasksLiveData: LiveData<List<SubTask>>
     abstract val errorLiveData: SingleLiveEvent<Int>
     abstract val finishLiveData: LiveData<Unit>
@@ -33,6 +35,7 @@ abstract class ViewTaskViewModel : ViewModel() {
     abstract fun onBackCliked()
     abstract fun onRemoveClicked()
     abstract fun onRunChecked(isChecked: Boolean)
+    abstract fun onSubTaskChecked(task: SubTask, isChecked: Boolean)
 }
 
 class DefaultViewTaskViewModel(
@@ -48,6 +51,7 @@ class DefaultViewTaskViewModel(
     override val nameLiveData = MutableLiveData<String>()
     override val descriptionLiveData = MutableLiveData<String>()
     override val dateLiveData = MutableLiveData<String>()
+    override val isRunEnabledLiveData = MediatorLiveData<Boolean>()
     override val subtasksLiveData = MutableLiveData<List<SubTask>>()
     override val errorLiveData = SingleLiveEvent<Int>()
     override val finishLiveData = MutableLiveData<Unit>()
@@ -78,8 +82,15 @@ class DefaultViewTaskViewModel(
 
     override fun onRunChecked(isChecked: Boolean) {
         when {
-            isChecked && isRunningLiveData.value == false -> runTask()
-            !isChecked && isRunningLiveData.value == true -> stopRunningTask()
+            isChecked && isRunningLiveData.value == false -> runSubTask()
+            !isChecked && isRunningLiveData.value == true -> stopRunningSubTask()
+        }
+    }
+
+    override fun onSubTaskChecked(task: SubTask, isChecked: Boolean) {
+        when {
+            isChecked && !task.isRunning() -> runSubTask(task)
+            !isChecked && task.isRunning() -> stopRunningSubTask(task)
         }
     }
 
@@ -108,6 +119,7 @@ class DefaultViewTaskViewModel(
     }
 
     private fun showStandaloneTask(task: StandaloneTask) {
+        isRunEnabledLiveData.value = true
         timeGapsLiveData.addSource(task.timeGaps) {
             timeGapsLiveData.value = task.timeGaps.value
         }
@@ -117,6 +129,7 @@ class DefaultViewTaskViewModel(
     }
 
     private fun showSteppedTask(task: SteppedTask) {
+        isRunEnabledLiveData.value = false
         subtasksLiveData.value = task.subtasks
     }
 
@@ -136,7 +149,7 @@ class DefaultViewTaskViewModel(
         finishLiveData.value = Unit
     }
 
-    private fun runTask() {
+    private fun runSubTask() {
         task?.run {
             timeGapInteractor.startTask(viewModelScope, id,
                 onSuccess = { runLiveData.value = NotificationData(id, name) },
@@ -144,11 +157,23 @@ class DefaultViewTaskViewModel(
         }
     }
 
-    private fun stopRunningTask() {
+    private fun stopRunningSubTask() {
         task?.run {
             timeGapInteractor.stopTask(viewModelScope, id,
                 onSuccess = { stopLiveData.value = Unit },
                 onError = { errorLiveData.value = R.string.error_task_stopping} )
         }
+    }
+
+    private fun runSubTask(task: SubTask) {
+        timeGapInteractor.startTask(viewModelScope, task.id,
+            onSuccess = { runLiveData.value = NotificationData(task.id, task.name) },
+            onError = { errorLiveData.value = R.string.error_task_running} )
+    }
+
+    private fun stopRunningSubTask(task: SubTask) {
+        timeGapInteractor.stopTask(viewModelScope, task.id,
+            onSuccess = { stopLiveData.value = Unit },
+            onError = { errorLiveData.value = R.string.error_task_stopping} )
     }
 }

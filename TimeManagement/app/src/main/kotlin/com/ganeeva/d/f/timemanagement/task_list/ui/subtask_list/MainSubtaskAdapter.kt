@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ganeeva.d.f.timemanagement.R
-import com.ganeeva.d.f.timemanagement.task.domain.model.task.SubTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.subtask.SubTask
 
 class MainSubtaskAdapter(
     initialList: List<SubTask>? = null

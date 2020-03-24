@@ -1,4 +1,4 @@
-package com.ganeeva.d.f.timemanagement.task.domain.model.task
+package com.ganeeva.d.f.timemanagement.task.domain.model.subtask
 
 import androidx.lifecycle.LiveData
 import com.ganeeva.d.f.timemanagement.task.domain.model.TimeGap

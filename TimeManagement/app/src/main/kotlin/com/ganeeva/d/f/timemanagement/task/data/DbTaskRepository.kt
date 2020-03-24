@@ -13,7 +13,7 @@ import com.ganeeva.d.f.timemanagement.task.domain.model.duration.OverallDuration
 import com.ganeeva.d.f.timemanagement.task.domain.model.TimeGap
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.StandaloneTask
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.SteppedTask
-import com.ganeeva.d.f.timemanagement.task.domain.model.task.SubTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.subtask.SubTask
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
 
 class DbTaskRepository(
