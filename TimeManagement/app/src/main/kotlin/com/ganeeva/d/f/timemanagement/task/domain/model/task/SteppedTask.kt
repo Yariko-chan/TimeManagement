@@ -1,12 +1,12 @@
-package com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model
+package com.ganeeva.d.f.timemanagement.task.domain.model.task
 
 import androidx.lifecycle.LiveData
 
-class StandaloneTask(
+class SteppedTask(
     id: Long,
     name: String,
     description: String = "",
     creationDate: Long,
     duration: LiveData<Long>,
-    val timeGaps: LiveData<List<TimeGap>>
+    val subtasks: List<SubTask>
 ) : Task(id, name, description, creationDate, duration)

@@ -1,7 +1,6 @@
 package com.ganeeva.d.f.timemanagement.new_task.ui
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +10,6 @@ import com.ganeeva.d.f.timemanagement.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.dialog_add_subtask.*
 
-/**
- *
- * @param validate - provides validation. Returns error text or null (if string is correct)
- */
 class AddSubtaskDialog(
     private val onOkClicked: (String) -> Unit
     ): DialogFragment() {

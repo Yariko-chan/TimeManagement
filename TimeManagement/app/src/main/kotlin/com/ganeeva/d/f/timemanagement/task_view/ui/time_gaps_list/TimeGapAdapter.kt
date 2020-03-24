@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ganeeva.d.f.timemanagement.R
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.TimeGap
+import com.ganeeva.d.f.timemanagement.task.domain.model.TimeGap
 import java.text.SimpleDateFormat
 
 class TimeGapAdapter(

@@ -10,9 +10,9 @@ import com.ganeeva.d.f.timemanagement.core.domain.EmptyParam
 import com.ganeeva.d.f.timemanagement.task_list.domain.GetAllTasksUseCase
 import com.ganeeva.d.f.timemanagement.task_running.TimeGapInteractor
 import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.StandaloneTask
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.Task
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.isRunning
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.StandaloneTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.isRunning
 
 abstract class TaskListViewModel : ViewModel() {
 

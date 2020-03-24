@@ -10,11 +10,11 @@ class CreateTaskUseCase(
 ): ResultUseCase<NewTask, Unit>(Dispatchers.IO) {
 
     override suspend fun run(params: NewTask): Either<Unit, Throwable> {
-        try {
+        return try {
             taskRepository.saveTask(params)
-            return Either.Left(Unit)
+            Either.Left(Unit)
         } catch (e: Throwable) {
-            return Either.Right(e)
+            Either.Right(e)
         }
     }
 }

@@ -4,10 +4,14 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.SingleLiveEvent
+import com.ganeeva.d.f.timemanagement.task.domain.model.TimeGap
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.StandaloneTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.SteppedTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.SubTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
 import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
 import com.ganeeva.d.f.timemanagement.task_view.domain.RemoveTaskUseCase
 import com.ganeeva.d.f.timemanagement.task_running.TimeGapInteractor
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.*
 import com.ganeeva.d.f.timemanagement.task_view.domain.GetTaskUseCase
 import java.text.SimpleDateFormat
 
@@ -92,7 +96,7 @@ class DefaultViewTaskViewModel(
         nameLiveData.value = task.name
         descriptionLiveData.value = task.description
         dateLiveData.value = taskDateFormat.format(task.creationDate)
-        durationLiveData.addSource(task.duration) { it ->
+        durationLiveData.addSource(task.duration) {
             val format = taskDurationFormat.format(it)
             Log.d("Duration", "viewModel on new value $it = $format")
             durationLiveData.value = format
@@ -108,7 +112,7 @@ class DefaultViewTaskViewModel(
             timeGapsLiveData.value = task.timeGaps.value
         }
         isRunningLiveData.addSource(task.timeGaps) {
-            isRunningLiveData.value = it.last().endTime == null
+            isRunningLiveData.value = it.isNotEmpty() && it.last().endTime == null
         }
     }
 

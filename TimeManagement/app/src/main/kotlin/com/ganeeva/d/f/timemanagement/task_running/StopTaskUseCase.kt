@@ -16,14 +16,11 @@ class StopTaskUseCase(
     override suspend fun run(params: Long): Either<Unit, Throwable> {
         return try {
             val unfinishedGaps = repository.getUnfinishedTimeGapsForTask(params)
-            return when {
-                unfinishedGaps.size == 0 -> Either.Right(
-                    Exception("No unfinished gaps found")
-                )
-                else -> {
-                    unfinishedGaps.forEach { it.finish() }
-                    Either.Left(Unit)
-                }
+            return if (unfinishedGaps.isEmpty()) {
+                Either.Right(Exception("No unfinished gaps found"))
+            } else {
+                unfinishedGaps.forEach { it.finish() }
+                Either.Left(Unit)
             }
 
         } catch (e: Throwable) {

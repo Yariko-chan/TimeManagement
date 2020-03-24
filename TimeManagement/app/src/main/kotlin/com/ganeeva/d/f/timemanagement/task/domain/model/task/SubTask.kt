@@ -1,6 +1,7 @@
-package com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model
+package com.ganeeva.d.f.timemanagement.task.domain.model.task
 
 import androidx.lifecycle.LiveData
+import com.ganeeva.d.f.timemanagement.task.domain.model.TimeGap
 
 class SubTask(
     val id: Long,

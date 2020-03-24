@@ -15,7 +15,7 @@
         <service
             android:name=".task_time_service.TaskRunningService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity android:name=".main.ui.MainActivity">
             <intent-filter>

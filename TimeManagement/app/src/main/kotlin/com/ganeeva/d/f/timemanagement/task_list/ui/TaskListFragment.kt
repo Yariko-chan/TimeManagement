@@ -18,10 +18,10 @@ import com.ganeeva.d.f.timemanagement.core.extensions.visible
 import com.ganeeva.d.f.timemanagement.task_list.ui.task_list.TaskAdapter
 import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
 import com.ganeeva.d.f.timemanagement.task_time_service.TaskRunningService
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.StandaloneTask
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.SteppedTask
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.Task
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.isRunning
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.StandaloneTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.SteppedTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.isRunning
 import kotlinx.android.synthetic.main.fragment_task_list.*
 import kotlinx.android.synthetic.main.include_background_text.*
 import kotlinx.android.synthetic.main.include_progress.*
@@ -31,7 +31,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 import java.text.SimpleDateFormat
 
-class TaskListFragment(): Fragment(R.layout.fragment_task_list) {
+class TaskListFragment: Fragment(R.layout.fragment_task_list) {
 
     companion object {
         fun newInstance(): TaskListFragment {

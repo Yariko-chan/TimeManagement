@@ -1,13 +1,14 @@
-package com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model
+package com.ganeeva.d.f.timemanagement.task.domain.model
 
 import androidx.lifecycle.MediatorLiveData
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.SubTask
 
 class OverallDuration(
     private val subtasks: List<SubTask>
 ) : MediatorLiveData<Long>() {
 
     init {
-        subtasks.forEach { addSource(it.duration, { onChanged() }) }
+        subtasks.forEach { addSource(it.duration) { onChanged() } }
     }
 
     private fun onChanged() {

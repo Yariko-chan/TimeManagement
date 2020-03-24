@@ -15,9 +15,9 @@ interface NotificationHelper {
 }
 
 class DefaultNotificationHelper(
-    val applicationContext: Context,
-    val channelName: String,
-    val channelId: String,
+    private val applicationContext: Context,
+    private val channelName: String,
+    private val channelId: String,
     private val notificationManager: NotificationManager
 ) : NotificationHelper {
 

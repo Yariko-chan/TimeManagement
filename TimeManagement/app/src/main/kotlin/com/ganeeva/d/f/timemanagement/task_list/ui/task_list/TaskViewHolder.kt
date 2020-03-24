@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ganeeva.d.f.timemanagement.core.extensions.gone
 import com.ganeeva.d.f.timemanagement.core.extensions.visible
 import com.ganeeva.d.f.timemanagement.task_list.ui.subtask_list.MainSubtaskAdapter
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.StandaloneTask
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.SteppedTask
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.Task
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.isRunning
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.StandaloneTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.SteppedTask
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.isRunning
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_task.*
 import java.text.SimpleDateFormat
@@ -18,8 +18,8 @@ import java.util.*
 
 class TaskViewHolder(
     override val containerView: View,
-    val dateFormat: SimpleDateFormat,
-    val durationFormat: SimpleDateFormat
+    private val dateFormat: SimpleDateFormat,
+    private val durationFormat: SimpleDateFormat
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
     private val adapter = MainSubtaskAdapter()

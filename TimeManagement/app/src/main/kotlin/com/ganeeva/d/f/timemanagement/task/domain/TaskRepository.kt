@@ -1,11 +1,11 @@
 package com.ganeeva.d.f.timemanagement.task.domain
 
 import com.ganeeva.d.f.timemanagement.new_task.domain.NewTask
-
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
 
 interface TaskRepository {
-    fun getTask(id: Long) : Task
     fun saveTask(task: NewTask)
-    fun getAll() : List<Task>
     fun remove(id: Long)
+    fun getTask(id: Long) : Task
+    fun getAll() : List<Task>
 }

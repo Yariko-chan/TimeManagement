@@ -32,5 +32,3 @@ data class DbTask(
     val creationDate: Long = 0L,
 
     val parentTaskId: Long? = null)
-{
-}

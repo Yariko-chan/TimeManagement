@@ -9,7 +9,6 @@ import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.SingleLiveEvent
 import com.ganeeva.d.f.timemanagement.new_task.domain.CreateTaskUseCase
 import com.ganeeva.d.f.timemanagement.new_task.domain.NewTask
-import com.ganeeva.d.f.timemanagement.task.domain.Task
 
 abstract class NewTaskViewModel: ViewModel() {
 
@@ -57,6 +56,8 @@ class DefaultNewTaskViewModel(
         if (text.isNotEmpty()) {
             subtaskList.add(text)
             subtaskListLiveData.value = subtaskList
+        } else {
+            errorLiveData.value = R.string.subtask_name_error
         }
     }
 

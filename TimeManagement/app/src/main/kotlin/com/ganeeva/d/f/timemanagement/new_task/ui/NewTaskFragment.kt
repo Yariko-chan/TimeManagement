@@ -3,7 +3,6 @@ package com.ganeeva.d.f.timemanagement.new_task.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -30,7 +29,7 @@ class NewTaskFragment: Fragment(R.layout.fragment_new_task) {
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         task_list_recycler_view.adapter = subtaskAdapter
 
-        viewModel.nameErrorLiveData.observe(viewLifecycleOwner, Observer { name_edittext.setError(it) })
+        viewModel.nameErrorLiveData.observe(viewLifecycleOwner, Observer { name_edittext.error = it })
         viewModel.finishLiveData.observe(viewLifecycleOwner, Observer { finish() })
         viewModel.errorLiveData.observe(viewLifecycleOwner, Observer { showError(it) })
         viewModel.showSubtaskDialogEvent.observe(viewLifecycleOwner, Observer {

@@ -1,4 +1,4 @@
-package com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model
+package com.ganeeva.d.f.timemanagement.task.domain.model.task
 
 import androidx.lifecycle.LiveData
 

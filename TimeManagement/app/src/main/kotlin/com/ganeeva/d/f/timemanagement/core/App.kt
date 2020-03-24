@@ -10,7 +10,6 @@ import com.ganeeva.d.f.timemanagement.task_list.taskListModule
 import com.ganeeva.d.f.timemanagement.task_running.taskRunningModule
 import com.ganeeva.d.f.timemanagement.task_view.viewTaskModule
 import com.ganeeva.d.f.timemanagement.time_gap.timeGapModule
-import com.ganeeva.d.f.timemanagement.tmp.full_task.fullTaskModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -36,8 +35,7 @@ class App : Application() {
                 taskListModule,
                 newTaskModule,
                 viewTaskModule,
-                taskRunningModule,
-                fullTaskModule // todo refactor
+                taskRunningModule
             )
         }
     }

@@ -15,8 +15,8 @@ import org.koin.android.ext.android.inject
 class TaskRunningService : Service() {
 
     companion object {
-        val ID = "id"
-        val NAME = "name"
+        const val ID = "id"
+        const val NAME = "name"
 
         fun start(context: Context, id: Long, name: String) {
             val intent = Intent(context, TaskRunningService::class.java)
@@ -52,12 +52,7 @@ class TaskRunningService : Service() {
     private fun createPendingIntent(): PendingIntent {
         val mainActivityIntent = Intent(applicationContext, MainActivity::class.java)
         mainActivityIntent.putExtra(TASK_ID, id)
-        val pi = PendingIntent.getActivity(applicationContext, 1011, mainActivityIntent, 0)
-        return pi
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
+        return PendingIntent.getActivity(applicationContext, 1011, mainActivityIntent, 0)
     }
 
     @Nullable

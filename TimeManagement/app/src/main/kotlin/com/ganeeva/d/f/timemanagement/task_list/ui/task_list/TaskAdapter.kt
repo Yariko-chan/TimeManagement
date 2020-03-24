@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ganeeva.d.f.timemanagement.R
-import com.ganeeva.d.f.timemanagement.tmp.full_task.domain.model.Task
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
 import java.text.SimpleDateFormat
 
 typealias OnClick = (position: Int, item: Task) -> Unit
@@ -12,9 +12,9 @@ typealias OnClick = (position: Int, item: Task) -> Unit
 class TaskAdapter(
     initialList: List<Task>? = null,
     private val onClick: OnClick? = null,
-    val dateFormat: SimpleDateFormat,
-    val durationFormat: SimpleDateFormat,
-    val onCheckedListener: (isChecked: Boolean, task: Task) -> Unit
+    private val dateFormat: SimpleDateFormat,
+    private val durationFormat: SimpleDateFormat,
+    private val onCheckedListener: (isChecked: Boolean, task: Task) -> Unit
 ): RecyclerView.Adapter<TaskViewHolder>() {
 
     private val items = mutableListOf<Task>()
