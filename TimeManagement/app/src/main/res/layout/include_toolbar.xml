@@ -24,14 +24,16 @@
 
     <TextView
         android:id="@+id/title_textview"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
         android:textAppearance="@style/TextAppearance.Primary.Large.Bold"
         app:layout_constraintStart_toEndOf="@id/start_image_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="Test" />
+        app:layout_constraintEnd_toStartOf="@id/end_image_view"
+        tools:text="TestTestTestTestTestTest" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/end_image_view"
