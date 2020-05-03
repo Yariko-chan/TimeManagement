@@ -24,4 +24,16 @@
     <string name="notification_task_running">Выполняется задача</string>
     <string name="error_task_running">Ошибка при запуске задачи</string>
     <string name="error_task_stopping">Ошибка при остановке задачи</string>
+
+    <!--    Filters-->
+    <string name="filters_header">Фильтры</string>
+    <string name="sort_header">Сортировка</string>
+    <string name="sort_by_alphabet">По алфавиту</string>
+    <string name="sort_by_new">Сначала новые</string>
+    <string name="sort_by_old">Сначала старые</string>
+    <string name="sort_by_short">Сначала короткие</string>
+    <string name="sort_by_long">Сначала длинные</string>
+    <string name="period_header">Период</string>
+    <string name="period_since">С</string>
+    <string name="period_to">По</string>
 </resources>

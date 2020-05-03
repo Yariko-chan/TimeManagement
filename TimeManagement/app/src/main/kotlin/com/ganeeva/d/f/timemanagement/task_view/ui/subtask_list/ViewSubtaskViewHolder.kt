@@ -13,9 +13,12 @@ class ViewSubtaskViewHolder(
     private val durationFormat: SimpleDateFormat
 ): RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-    fun bind(subTask: SubTask, onChecked: (isChecked: Boolean, subTask: SubTask) -> Unit) {
+    fun bind(subTask: SubTask,
+             onChecked: (isChecked: Boolean, subTask: SubTask) -> Unit,
+             onDeleteClicked: (SubTask) -> Unit) {
         name_text_view.text = subTask.name
         showRunCheckBox(subTask, onChecked)
+        delete_image_view.setOnClickListener { onDeleteClicked(subTask) }
     }
 
     private fun showRunCheckBox(

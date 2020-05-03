@@ -32,10 +32,11 @@ abstract class ViewTaskViewModel : ViewModel() {
     abstract val timeGapsLiveData: LiveData<List<TimeGap>>
 
     abstract fun onTaskId(id: Long?)
-    abstract fun onBackCliked()
+    abstract fun onBackClicked()
     abstract fun onRemoveClicked()
     abstract fun onRunChecked(isChecked: Boolean)
     abstract fun onSubTaskChecked(task: SubTask, isChecked: Boolean)
+    abstract fun onDeleteSubTaskClicked(subTask: SubTask)
 }
 
 class DefaultViewTaskViewModel(
@@ -68,7 +69,7 @@ class DefaultViewTaskViewModel(
         }
     }
 
-    override fun onBackCliked() {
+    override fun onBackClicked() {
         finish()
     }
 
@@ -76,7 +77,7 @@ class DefaultViewTaskViewModel(
         if (task == null) {
             errorLiveData.value = R.string.error_task_removing
         } else {
-            removeTaskUseCase.invoke(viewModelScope, task!!.id) { it.fold(::onTaskRemoveSuccess, ::onTaskRemoveError) }
+            removeTaskUseCase(viewModelScope, task!!.id) { it.fold(::onTaskRemoveSuccess, ::onTaskRemoveError) }
         }
     }
 
@@ -92,6 +93,10 @@ class DefaultViewTaskViewModel(
             isChecked && !task.isRunning() -> runSubTask(task)
             !isChecked && task.isRunning() -> stopRunningSubTask(task)
         }
+    }
+
+    override fun onDeleteSubTaskClicked(subTask: SubTask) {
+        removeTaskUseCase(viewModelScope, subTask.id) { it.fold(::onSubTaskRemoveSuccess, ::onSubTaskRemoveError) }
     }
 
     private fun showError() {
@@ -133,12 +138,12 @@ class DefaultViewTaskViewModel(
         subtasksLiveData.value = task.subtasks
     }
 
-    private fun onTaskRemoveSuccess(unit: Unit) {
-        finish()
-    }
-
     private fun onTaskLoadError(throwable: Throwable) {
         errorLiveData.value = R.string.error_task_not_found
+    }
+
+    private fun onTaskRemoveSuccess(unit: Unit) {
+        finish()
     }
 
     private fun onTaskRemoveError(throwable: Throwable) {
@@ -175,5 +180,13 @@ class DefaultViewTaskViewModel(
         timeGapInteractor.stopTask(viewModelScope, task.id,
             onSuccess = { stopLiveData.value = Unit },
             onError = { errorLiveData.value = R.string.error_task_stopping} )
+    }
+
+    private fun onSubTaskRemoveSuccess(unit: Unit) {
+        task?.let { loadTask(it.id) }
+    }
+
+    private fun onSubTaskRemoveError(throwable: Throwable) {
+        errorLiveData.value = R.string.error_task_removing
     }
 }

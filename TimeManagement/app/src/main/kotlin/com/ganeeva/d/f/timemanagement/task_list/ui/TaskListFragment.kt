@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.DURATION
@@ -33,14 +34,6 @@ import java.text.SimpleDateFormat
 
 class TaskListFragment: Fragment(R.layout.fragment_task_list) {
 
-    companion object {
-        fun newInstance(): TaskListFragment {
-            val fragment = TaskListFragment()
-            fragment.arguments = Bundle()
-            return fragment
-        }
-    }
-
     private val viewModel: TaskListViewModel by viewModel()
     private val dateFormat: SimpleDateFormat by inject(named(TASK_DATE))
     private val durationFormat: SimpleDateFormat by inject(named(DURATION))
@@ -55,13 +48,16 @@ class TaskListFragment: Fragment(R.layout.fragment_task_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupToolbar(R.string.task_list_header)
+        setupToolbar(
+            title = R.string.task_list_header,
+            endIcon = R.drawable.ic_filter,
+            onEndClicked = { viewModel.onFilterClicked() })
         task_recycler_view.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         task_recycler_view.adapter = adapter
 
         add_new_button.setOnClickListener {
             val action = TaskListFragmentDirections.actionTaskListToNewTask()
-            view.findNavController().navigateWithCheck(action)
+            findNavController().navigateWithCheck(action)
         }
 
         viewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
@@ -84,10 +80,13 @@ class TaskListFragment: Fragment(R.layout.fragment_task_list) {
 
         viewModel.showTaskEvent.observe(viewLifecycleOwner, Observer {id ->
             val action = TaskListFragmentDirections.actionTaskListToViewTask(id)
-            view.findNavController().navigateWithCheck(action)
+            findNavController().navigateWithCheck(action)
         })
         viewModel.runLiveData.observe(viewLifecycleOwner, Observer { data ->
             startTaskRunningService(data)
+        })
+        viewModel.showFilterEvent.observe(viewLifecycleOwner, Observer {
+            findNavController().navigate(R.id.action_taskList_to_filter)
         })
         viewModel.stopLiveData.observe(viewLifecycleOwner, Observer { stopTaskRunningService() })
         viewModel.errorLiveData.observe(viewLifecycleOwner, Observer { showError(it) })
@@ -95,6 +94,10 @@ class TaskListFragment: Fragment(R.layout.fragment_task_list) {
 
     override fun onStart() {
         super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.onViewVisible()
     }
 

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/include_toolbar" />
+
+    <RadioGroup
+        android:id="@+id/sort_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_medium"
+        style="@style/WhiteCard"
+        >
+
+        <TextView
+            android:id="@+id/sort_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="@string/sort_header"
+            style="@style/TextAppearance.Primary.Medium"
+            />
+
+        <RadioButton
+            android:id="@+id/sort_by_alphabet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_alphabet"
+            android:layout_marginTop="@dimen/margin_small"
+            style="@style/TextAppearance.Primary.Small"
+            />
+
+        <RadioButton
+            android:id="@+id/sort_new_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_new"
+            style="@style/TextAppearance.Primary.Small"
+            />
+
+        <RadioButton
+            android:id="@+id/sort_old_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_old"
+            style="@style/TextAppearance.Primary.Small"
+            />
+
+        <RadioButton
+            android:id="@+id/sort_short_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_short"
+            style="@style/TextAppearance.Primary.Small"
+            />
+
+        <RadioButton
+            android:id="@+id/sort_long_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_long"
+            style="@style/TextAppearance.Primary.Small"
+            />
+    </RadioGroup>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/period_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_medium"
+        style="@style/WhiteCard"
+        >
+
+        <TextView
+            android:id="@+id/period_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="@string/period_header"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/TextAppearance.Primary.Medium"
+            />
+
+        <TextView
+            android:id="@+id/from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/period_since"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintTop_toBottomOf="@id/period_header"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/TextAppearance.Primary.Small"
+            />
+
+        <View
+            android:id="@+id/from_view"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            app:layout_constraintTop_toBottomOf="@id/period_header"
+            app:layout_constraintStart_toEndOf="@id/from"
+            app:layout_constraintEnd_toStartOf="@id/to"
+            />
+
+        <TextView
+            android:id="@+id/to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/period_to"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintTop_toBottomOf="@id/period_header"
+            app:layout_constraintStart_toEndOf="@id/from_view"
+            app:layout_constraintEnd_toStartOf="@id/to_view"
+            style="@style/TextAppearance.Primary.Small"
+            />
+
+        <View
+            android:id="@+id/to_view"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            app:layout_constraintTop_toBottomOf="@id/period_header"
+            app:layout_constraintStart_toEndOf="@id/to"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

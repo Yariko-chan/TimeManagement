@@ -7,5 +7,8 @@ interface TaskRepository {
     fun saveTask(task: NewTask)
     fun remove(id: Long)
     fun getTask(id: Long) : Task
-    fun getAll() : List<Task>
+    fun getAll(from: Long, to: Long) : List<Task>
+    fun getAllSortedAlphabetically(from: Long, to: Long) : List<Task>
+    fun getAllSortedByCreationDate(isAsc: Boolean, from: Long, to: Long) : List<Task>
+    fun getAllSortedByLength(isAsc: Boolean, from: Long, to: Long) : List<Task>
 }

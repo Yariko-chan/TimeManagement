@@ -8,13 +8,26 @@
     android:layout_marginBottom="@dimen/margin_medium"
     style="@style/WhiteCard">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/delete_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:src="@drawable/ic_clear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
     <TextView
         android:id="@+id/name_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_small"
+        android:paddingStart="0dp"
+        android:drawableStart="@null"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/delete_image_view"
         app:layout_constraintEnd_toStartOf="@id/run_time_checkbox"
         tools:text="secondary task secondary task se ondary task "
         style="@style/SubtaskText" />

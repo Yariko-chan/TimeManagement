@@ -16,3 +16,5 @@ TimeManagement/app/release/
 TimeManagement/build/
 
 release.properties
+
+*.zip

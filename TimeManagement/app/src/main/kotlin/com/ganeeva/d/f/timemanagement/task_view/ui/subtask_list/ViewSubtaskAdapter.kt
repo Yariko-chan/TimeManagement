@@ -10,7 +10,8 @@ import java.text.SimpleDateFormat
 class ViewSubTaskAdapter(
     initialList: List<SubTask>? = null,
     private val durationFormat: SimpleDateFormat,
-    private val onCheckedListener: (isChecked: Boolean, task: SubTask) -> Unit
+    private val onCheckedListener: (isChecked: Boolean, task: SubTask) -> Unit,
+    private val onDeleteClicked: (SubTask) -> Unit
 ): RecyclerView.Adapter<ViewSubtaskViewHolder>() {
 
     private val items = mutableListOf<SubTask>()
@@ -35,7 +36,7 @@ class ViewSubTaskAdapter(
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ViewSubtaskViewHolder, position: Int) {
-        holder.bind(items[position], onCheckedListener)
+        holder.bind(items[position], onCheckedListener, onDeleteClicked)
     }
 
     override fun onBindViewHolder(

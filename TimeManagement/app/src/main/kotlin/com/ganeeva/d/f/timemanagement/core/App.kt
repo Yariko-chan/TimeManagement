@@ -2,6 +2,7 @@ package com.ganeeva.d.f.timemanagement.core
 
 import android.app.Application
 import com.ganeeva.d.f.timemanagement.db.dbModule
+import com.ganeeva.d.f.timemanagement.filter.filtersModule
 import com.ganeeva.d.f.timemanagement.main.mainModule
 import com.ganeeva.d.f.timemanagement.new_task.newTaskModule
 import com.ganeeva.d.f.timemanagement.notification.notificationModule
@@ -35,7 +36,8 @@ class App : Application() {
                 taskListModule,
                 newTaskModule,
                 viewTaskModule,
-                taskRunningModule
+                taskRunningModule,
+                filtersModule
             )
         }
     }

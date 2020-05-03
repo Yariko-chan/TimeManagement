@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_taskList_to_viewTask"
             app:destination="@id/viewTask" />
+        <action
+            android:id="@+id/action_taskList_to_filter"
+            app:destination="@id/filter" />
     </fragment>
     <fragment
         android:id="@+id/newTask"
@@ -35,5 +38,12 @@
             android:name="task_id"
             app:argType="long"
             android:defaultValue="-1L" />
+    </fragment>
+    <fragment
+        android:id="@+id/filter"
+        android:name="com.ganeeva.d.f.timemanagement.filter.ui.FilterFragment"
+        android:label="Filter"
+        tools:layout="@layout/fragment_filter"
+        >
     </fragment>
 </navigation>

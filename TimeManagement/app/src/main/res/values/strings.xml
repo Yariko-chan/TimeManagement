@@ -25,4 +25,16 @@
     <string name="notification_task_running">Task is running</string>
     <string name="error_task_running">Error task running</string>
     <string name="error_task_stopping">Error task stopping</string>
+
+    <!--    Filters-->
+    <string name="filters_header">Filters</string>
+    <string name="sort_header">Sort</string>
+    <string name="sort_by_alphabet">By alphabet</string>
+    <string name="sort_by_new">New first</string>
+    <string name="sort_by_old">Old first</string>
+    <string name="sort_by_short">Short first</string>
+    <string name="sort_by_long">Long first</string>
+    <string name="period_header">Period</string>
+    <string name="period_since">Since</string>
+    <string name="period_to">To</string>
 </resources>

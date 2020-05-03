@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ganeeva.d.f.timemanagement.R
 import com.ganeeva.d.f.timemanagement.core.SingleLiveEvent
 import com.ganeeva.d.f.timemanagement.core.domain.EmptyParam
-import com.ganeeva.d.f.timemanagement.task_list.domain.GetAllTasksUseCase
+import com.ganeeva.d.f.timemanagement.task_list.domain.GetTaskListUseCase
 import com.ganeeva.d.f.timemanagement.task_running.TimeGapInteractor
 import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.StandaloneTask
@@ -24,14 +24,16 @@ abstract class TaskListViewModel : ViewModel() {
     abstract val runLiveData: LiveData<NotificationData>
     abstract val stopLiveData: LiveData<Unit>
     abstract val errorLiveData: SingleLiveEvent<Int>
+    abstract val showFilterEvent: LiveData<Unit>
 
     abstract fun onViewVisible()
     abstract fun onTaskClicked(position: Int, task: Task)
     abstract fun onTaskChecked(task: Task, isChecked: Boolean)
+    abstract fun onFilterClicked()
 }
 
 class DefaultTaskListViewModel(
-    private val getAllTasksUseCase: GetAllTasksUseCase,
+    private val getTaskListUseCase: GetTaskListUseCase,
     private val timeGapInteractor: TimeGapInteractor
 ): TaskListViewModel() {
 
@@ -43,6 +45,7 @@ class DefaultTaskListViewModel(
     override val runLiveData = MutableLiveData<NotificationData>()
     override val stopLiveData = MutableLiveData<Unit>()
     override val errorLiveData = SingleLiveEvent<Int>()
+    override val showFilterEvent = SingleLiveEvent<Unit>()
 
     override fun onViewVisible() {
         loadData()
@@ -59,9 +62,13 @@ class DefaultTaskListViewModel(
         }
     }
 
+    override fun onFilterClicked() {
+        showFilterEvent.value = Unit
+    }
+
     private fun loadData() {
         progressLiveData.value = true
-        getAllTasksUseCase(viewModelScope, EmptyParam) { it.fold(::onTaskList, ::onError) }
+        getTaskListUseCase(viewModelScope, EmptyParam) { it.fold(::onTaskList, ::onError) }
     }
 
     private fun onTaskList(list: List<Task>) {

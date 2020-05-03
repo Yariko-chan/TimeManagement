@@ -34,8 +34,12 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
     private val timeGapsAdapter: TimeGapAdapter by lazy {
         TimeGapAdapter(dateFormat = startTimeFormat, durationFormat = durationFormat) }
     private val subTaskAdapter: ViewSubTaskAdapter by lazy {
-        ViewSubTaskAdapter(durationFormat = durationFormat)
-        { isChecked, task -> viewModel.onSubTaskChecked(task, isChecked)} }
+        ViewSubTaskAdapter(
+            durationFormat = durationFormat,
+            onCheckedListener = { isChecked, task -> viewModel.onSubTaskChecked(task, isChecked) },
+            onDeleteClicked = {subTask -> viewModel.onDeleteSubTaskClicked(subTask)}
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,7 +66,7 @@ class ViewTaskFragment : Fragment(R.layout.fragment_view_task) {
 
     private fun setupToolbar() {
         start_image_view.setImageResource(R.drawable.ic_back)
-        start_image_view.setOnClickListener { viewModel.onBackCliked() }
+        start_image_view.setOnClickListener { viewModel.onBackClicked() }
         end_image_view.setImageResource(R.drawable.ic_delete)
         end_image_view.setOnClickListener { viewModel.onRemoveClicked() }
     }

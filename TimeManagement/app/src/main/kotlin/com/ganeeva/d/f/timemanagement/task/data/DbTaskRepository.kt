@@ -5,6 +5,7 @@ import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import com.ganeeva.d.f.timemanagement.db.TaskDatabase
 import com.ganeeva.d.f.timemanagement.db.task.DbTask
+import com.ganeeva.d.f.timemanagement.db.time_gap.TimeGapDao
 import com.ganeeva.d.f.timemanagement.new_task.domain.NewTask
 import com.ganeeva.d.f.timemanagement.task.data.mappers.*
 import com.ganeeva.d.f.timemanagement.task.domain.TaskRepository
@@ -15,6 +16,7 @@ import com.ganeeva.d.f.timemanagement.task.domain.model.task.StandaloneTask
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.SteppedTask
 import com.ganeeva.d.f.timemanagement.task.domain.model.subtask.SubTask
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
+import com.ganeeva.d.f.timemanagement.task.domain.model.task.getDuration
 
 class DbTaskRepository(
     private val db: TaskDatabase,
@@ -41,13 +43,44 @@ class DbTaskRepository(
         return getFullTaskInfo(mainTask)
     }
 
-    override fun getAll() : List<Task> {
-        val dbTasks = db.taskDao.getAllTasks()
+    override fun getAll(from: Long, to: Long) : List<Task> {
+        val dbTasks = db.taskDao.getAllTasks(from, to)
         val tasks = mutableListOf<Task>()
         dbTasks.forEach { mainTask ->
-            tasks +=getFullTaskInfo(mainTask)
+            tasks += getFullTaskInfo(mainTask)
         }
         return tasks
+    }
+
+    override fun getAllSortedAlphabetically(from: Long, to: Long) : List<Task> {
+        val dbTasks = db.taskDao.getTasksSortAlphabetically(true, from, to)
+        val tasks = mutableListOf<Task>()
+        dbTasks.forEach { mainTask ->
+            tasks += getFullTaskInfo(mainTask)
+        }
+        return tasks
+    }
+
+    override fun getAllSortedByCreationDate(isAsc: Boolean, from: Long, to: Long) : List<Task> {
+        val dbTasks = db.taskDao.getTasksSortByCreationDate(isAsc, from, to)
+        val tasks = mutableListOf<Task>()
+        dbTasks.forEach { mainTask ->
+            tasks += getFullTaskInfo(mainTask)
+        }
+        return tasks
+    }
+
+    override fun getAllSortedByLength(isAsc: Boolean, from: Long, to: Long): List<Task> {
+        val dbTasks = db.taskDao.getAllTasks(from, to)
+        val tasks = mutableListOf<Task>()
+        dbTasks.forEach { mainTask ->
+            tasks += getFullTaskInfo(mainTask)
+        }
+        return if (isAsc) {
+            tasks.sortedBy { it.getDuration(db.timeGapDao) }
+        } else {
+            tasks.sortedByDescending { it.getDuration(db.timeGapDao) }
+        }
     }
 
     private fun getFullTaskInfo(mainTask: DbTask): Task {
@@ -76,9 +109,7 @@ class DbTaskRepository(
     }
 
     private fun getOverallDuration(subtasks: List<SubTask>): LiveData<Long> {
-        return OverallDuration(
-            subtasks
-        )
+        return OverallDuration(subtasks)
     }
 
     private fun getGapsForTask(taskId: Long) =
@@ -87,9 +118,7 @@ class DbTaskRepository(
 
     private fun getDuration(timeGaps: LiveData<List<TimeGap>>): LiveData<Long> {
         return timeGaps.switchMap { gaps ->
-            Duration(
-                gaps
-            )
+            Duration(gaps)
         }
     }
 }

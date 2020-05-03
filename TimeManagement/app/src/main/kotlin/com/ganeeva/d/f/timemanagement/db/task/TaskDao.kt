@@ -1,6 +1,9 @@
 package com.ganeeva.d.f.timemanagement.db.task
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface TaskDao {
@@ -20,8 +23,14 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE id = :id")
     fun getById(id: Long): DbTask
 
-    @Query("SELECT * FROM task_table WHERE parentTaskId is NULL")
-    fun getAllTasks(): List<DbTask>
+    @Query("SELECT * FROM task_table WHERE parentTaskId is NULL AND creationDate > :from AND creationDate < :to")
+    fun getAllTasks(from: Long, to: Long): List<DbTask>
+
+    @Query("SELECT * FROM task_table WHERE parentTaskId is NULL AND creationDate > :from AND creationDate < :to ORDER BY CASE WHEN :isAsc = 1 THEN name END ASC, CASE WHEN :isAsc = 0 THEN name END DESC")
+    fun getTasksSortAlphabetically(isAsc: Boolean, from: Long, to: Long): List<DbTask>
+
+    @Query("SELECT * FROM task_table WHERE parentTaskId is NULL AND creationDate > :from AND creationDate < :to ORDER BY CASE WHEN :isAsc = 1 THEN creationDate END ASC, CASE WHEN :isAsc = 0 THEN name END DESC")
+    fun getTasksSortByCreationDate(isAsc: Boolean, from: Long, to: Long): List<DbTask>
 
     @Query("SELECT * FROM task_table WHERE parentTaskId = :id")
     fun getSubTasks(id: Long): List<DbTask>
