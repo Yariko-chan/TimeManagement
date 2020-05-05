@@ -29,7 +29,7 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE parentTaskId is NULL AND creationDate > :from AND creationDate < :to ORDER BY CASE WHEN :isAsc = 1 THEN name END ASC, CASE WHEN :isAsc = 0 THEN name END DESC")
     fun getTasksSortAlphabetically(isAsc: Boolean, from: Long, to: Long): List<DbTask>
 
-    @Query("SELECT * FROM task_table WHERE parentTaskId is NULL AND creationDate > :from AND creationDate < :to ORDER BY CASE WHEN :isAsc = 1 THEN creationDate END ASC, CASE WHEN :isAsc = 0 THEN name END DESC")
+    @Query("SELECT * FROM task_table WHERE parentTaskId is NULL AND creationDate > :from AND creationDate < :to ORDER BY CASE WHEN :isAsc = 1 THEN creationDate END DESC, CASE WHEN :isAsc = 0 THEN creationDate END ASC")
     fun getTasksSortByCreationDate(isAsc: Boolean, from: Long, to: Long): List<DbTask>
 
     @Query("SELECT * FROM task_table WHERE parentTaskId = :id")
