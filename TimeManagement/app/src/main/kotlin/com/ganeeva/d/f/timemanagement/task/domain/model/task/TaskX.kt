@@ -12,20 +12,17 @@ fun Task.isRunning(): Boolean {
 }
 
 fun Task.getDuration(timeGapDao: TimeGapDao): Long {
-    val sdf = SimpleDateFormat("HH:mm:ss")
     return when (this) {
         is StandaloneTask -> {
             var sum = 0L
-            timeGapDao.getAllForTask(id).forEach { sum += (it.endTime ?: System.currentTimeMillis() - it.startTime) }
-            val test = sdf.format(sum)
+            timeGapDao.getAllForTask(id).forEach { sum += (it.endTime ?: System.currentTimeMillis()) - it.startTime }
             sum
         }
         is SteppedTask -> {
             var sum = 0L
             subtasks.forEach {
-                timeGapDao.getAllForTask(it.id).forEach { sum += (it.endTime ?: System.currentTimeMillis() - it.startTime) }
+                timeGapDao.getAllForTask(it.id).forEach { sum += (it.endTime ?: System.currentTimeMillis()) - it.startTime }
             }
-            val test = sdf.format(sum)
             sum
         }
         else -> 0L
