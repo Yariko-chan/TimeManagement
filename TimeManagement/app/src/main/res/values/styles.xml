@@ -19,9 +19,10 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item><!--The most prominent text color.-->
         <item name="android:textColorSecondary">@color/textColorSecondary</item><!--Secondary text color.-->
         <item name="actionBarSize">@dimen/actionBarSize</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
     </style>
 
-    <style name="TextAppearance" parent="TextAppearance.AppCompat">
+    <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textSize">24sp</item>
@@ -102,6 +103,14 @@
         <item name="android:drawableEnd">@drawable/run_checkable</item>
         <item name="android:textAppearance">@style/TextAppearance.Primary.Large</item>
         <item name="android:textColor">@color/run_checkbox_text_color</item>
+    </style>
+
+    <style name="TextAppearance.Primary.Medium.Period">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">@dimen/margin_medium</item>
+        <item name="android:paddingBottom">@dimen/margin_medium</item>
     </style>
 
 </resources>

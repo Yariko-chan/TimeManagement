@@ -1,7 +1,6 @@
 package com.ganeeva.d.f.timemanagement.task.domain.model.task
 
 import com.ganeeva.d.f.timemanagement.db.time_gap.TimeGapDao
-import java.text.SimpleDateFormat
 
 fun Task.isRunning(): Boolean {
     return when (this) {
