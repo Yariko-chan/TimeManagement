@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -37,6 +38,7 @@ class TaskListFragment: Fragment(R.layout.fragment_task_list) {
     private val viewModel: TaskListViewModel by viewModel()
     private val dateFormat: SimpleDateFormat by inject(named(TASK_DATE))
     private val durationFormat: SimpleDateFormat by inject(named(DURATION))
+
     private val adapter: TaskAdapter by lazy {
         TaskAdapter(
             dateFormat = dateFormat,
@@ -45,23 +47,54 @@ class TaskListFragment: Fragment(R.layout.fragment_task_list) {
         { isChecked, task -> viewModel.onTaskChecked(task, isChecked)}
     }
 
+    private val queryTextListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            if (query.isNullOrEmpty()) {
+                viewModel.onQueryClear()
+            } else {
+                viewModel.onNewQuery(query)
+            }
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            if (newText.isNullOrEmpty()) {
+                viewModel.onQueryClear()
+            }
+            return true
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupView()
+        setupViewModel()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onViewVisible()
+    }
+
+    private fun setupView() {
         setupToolbar(
             title = R.string.task_list_header,
             endIcon = R.drawable.ic_filter,
             onEndClicked = { viewModel.onFilterClicked() })
-        task_recycler_view.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        task_recycler_view.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         task_recycler_view.adapter = adapter
 
         add_new_button.setOnClickListener {
             val action = TaskListFragmentDirections.actionTaskListToNewTask()
             findNavController().navigateWithCheck(action)
         }
+        search_view.setOnQueryTextListener(queryTextListener)
+    }
 
+    private fun setupViewModel() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
-            progress_group.visibility = if(it) View.VISIBLE else View.GONE
+            progress_group.visibility = if (it) View.VISIBLE else View.GONE
         })
         viewModel.tasksListLiveData.observe(viewLifecycleOwner, Observer {
             subscribeItemsDuration(it)
@@ -78,7 +111,7 @@ class TaskListFragment: Fragment(R.layout.fragment_task_list) {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         })
 
-        viewModel.showTaskEvent.observe(viewLifecycleOwner, Observer {id ->
+        viewModel.showTaskEvent.observe(viewLifecycleOwner, Observer { id ->
             val action = TaskListFragmentDirections.actionTaskListToViewTask(id)
             findNavController().navigateWithCheck(action)
         })
@@ -90,15 +123,6 @@ class TaskListFragment: Fragment(R.layout.fragment_task_list) {
         })
         viewModel.stopLiveData.observe(viewLifecycleOwner, Observer { stopTaskRunningService() })
         viewModel.errorLiveData.observe(viewLifecycleOwner, Observer { showError(it) })
-    }
-
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onViewVisible()
     }
 
     // todo extract reusable component

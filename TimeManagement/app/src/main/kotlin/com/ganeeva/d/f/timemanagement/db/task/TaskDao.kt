@@ -26,6 +26,9 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE parentTaskId is NULL AND creationDate > :from AND creationDate < :to")
     fun getAllTasks(from: Long, to: Long): List<DbTask>
 
+    @Query("SELECT * FROM task_table WHERE parentTaskId is NULL AND ((name LIKE '%' || :query  || '%') OR (description LIKE '%' || :query  || '%'))")
+    fun searchTasks(query: String): List<DbTask>
+
     @Query("SELECT * FROM task_table WHERE parentTaskId is NULL AND creationDate > :from AND creationDate < :to ORDER BY CASE WHEN :isAsc = 1 THEN name END ASC, CASE WHEN :isAsc = 0 THEN name END DESC")
     fun getTasksSortAlphabetically(isAsc: Boolean, from: Long, to: Long): List<DbTask>
 

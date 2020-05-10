@@ -28,6 +28,7 @@ class TaskAdapter(
             clear()
             addAll(list)
         }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {

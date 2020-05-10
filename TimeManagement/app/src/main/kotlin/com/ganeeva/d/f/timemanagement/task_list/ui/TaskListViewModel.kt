@@ -13,6 +13,7 @@ import com.ganeeva.d.f.timemanagement.task_time_service.NotificationData
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.StandaloneTask
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.Task
 import com.ganeeva.d.f.timemanagement.task.domain.model.task.isRunning
+import com.ganeeva.d.f.timemanagement.task_list.domain.SearchTaskUseCase
 
 abstract class TaskListViewModel : ViewModel() {
 
@@ -30,10 +31,13 @@ abstract class TaskListViewModel : ViewModel() {
     abstract fun onTaskClicked(position: Int, task: Task)
     abstract fun onTaskChecked(task: Task, isChecked: Boolean)
     abstract fun onFilterClicked()
+    abstract fun onQueryClear()
+    abstract fun onNewQuery(query: String)
 }
 
 class DefaultTaskListViewModel(
     private val getTaskListUseCase: GetTaskListUseCase,
+    private val searchTaskUseCase: SearchTaskUseCase,
     private val timeGapInteractor: TimeGapInteractor
 ): TaskListViewModel() {
 
@@ -64,6 +68,14 @@ class DefaultTaskListViewModel(
 
     override fun onFilterClicked() {
         showFilterEvent.value = Unit
+    }
+
+    override fun onNewQuery(query: String) {
+        searchTaskUseCase(viewModelScope, query) { it.fold(::onTaskList, ::onError) }
+    }
+
+    override fun onQueryClear() {
+        loadData()
     }
 
     private fun loadData() {

@@ -83,6 +83,15 @@ class DbTaskRepository(
         }
     }
 
+    override fun searchTasks(query: String): List<Task> {
+        val dbTasks = db.taskDao.searchTasks(query)
+        val tasks = mutableListOf<Task>()
+        dbTasks.forEach { mainTask ->
+            tasks += getFullTaskInfo(mainTask)
+        }
+        return tasks
+    }
+
     private fun getFullTaskInfo(mainTask: DbTask): Task {
         val subtasks = db.taskDao.getSubTasks(mainTask.id)
         return if (subtasks.isEmpty()) {

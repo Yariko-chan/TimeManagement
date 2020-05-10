@@ -11,4 +11,5 @@ interface TaskRepository {
     fun getAllSortedAlphabetically(from: Long, to: Long) : List<Task>
     fun getAllSortedByCreationDate(isAsc: Boolean, from: Long, to: Long) : List<Task>
     fun getAllSortedByLength(isAsc: Boolean, from: Long, to: Long) : List<Task>
+    fun searchTasks(query: String) : List<Task>
 }
